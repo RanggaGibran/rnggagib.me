@@ -93,6 +93,11 @@ async function navigateToSection(sectionId) {
     window.playPixelSound('click');
   }
   
+  // Ensure music continues playing if not muted
+  if (window.musicPlayer && !window.musicPlayer.isMuted) {
+    window.musicPlayer.play();
+  }
+  
   // Show achievement
   if (window.showAchievement) {
     window.showAchievement(`${sectionId.toUpperCase()} LEVEL UNLOCKED!`);

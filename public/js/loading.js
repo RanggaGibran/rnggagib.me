@@ -170,6 +170,11 @@ class LoadingScreen {
       window.playPixelSound('start');
     }
     
+    // Start background music if available
+    if (window.musicPlayer && !window.musicPlayer.isMuted) {
+      window.musicPlayer.play();
+    }
+    
     // Show achievement
     if (window.showAchievement) {
       window.showAchievement('GAME STARTED!');
