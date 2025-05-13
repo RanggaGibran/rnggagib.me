@@ -1,4 +1,4 @@
-    </main>
+</main>
 
     <!-- Theme Switcher -->
     <div class="theme-switcher">
@@ -45,10 +45,24 @@
     </footer>
   </div>
 
+  <!-- Pastikan urutan script load benar -->
   <script src="js/shared.js"></script>
-  <script src="js/page-loader.js"></script>
-  <script src="js/loading.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/theme-switcher.js"></script>
+  <script>
+    // Direct initialization check
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Footer scripts loaded');
+      // Safety check untuk skill bars
+      setTimeout(function() {
+        if (window.location.pathname.includes('skills') || 
+            document.getElementById('skills')?.classList.contains('active')) {
+          console.log('Auto-checking skills section');
+          if (typeof window.initSkillBars === 'function') {
+            window.initSkillBars();
+          }
+        }
+      }, 1000);
+    });
+  </script>
 </body>
 </html>

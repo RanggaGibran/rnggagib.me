@@ -360,7 +360,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* Perbaikan Skill Bar */
+/* Update CSS untuk skill bar */
 .skill-bar {
   height: 20px;
   background-color: rgba(255, 255, 255, 0.1);
@@ -369,18 +369,38 @@ body {
   border-radius: 4px;
   border: 2px solid var(--secondary);
   margin-top: 5px;
-  width: 100%; /* Pastikan lebar awal 100% */
+  width: 100%; 
 }
 
-.skill-bar::after {
-  content: '';
+.skill-fill {
   position: absolute;
+  height: 100%;
+  background-color: var(--pixel-green, #4bef5b);
+  width: 0;
   left: 0;
   top: 0;
-  height: 100%;
-  background-color: var(--pixel-green);
-  width: 0%; /* Mulai dari 0 */
   transition: width 1s ease-out;
+}
+
+/* Tambahkan subtle pattern untuk skill fill */
+.skill-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    45deg, 
+    rgba(255,255,255,0.1) 25%, 
+    transparent 25%, 
+    transparent 50%, 
+    rgba(255,255,255,0.1) 50%, 
+    rgba(255,255,255,0.1) 75%, 
+    transparent 75%, 
+    transparent
+  );
+  background-size: 8px 8px;
 }
 
 /* About Section */

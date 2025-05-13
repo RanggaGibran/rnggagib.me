@@ -126,7 +126,8 @@ function showSection(sectionId) {
     if (sectionId === 'projects') {
       animateProjectItems();
     } else if (sectionId === 'skills') {
-      initializeSkillBars();
+      // Panggil fungsi global
+      window.initSkillBars();
     }
   }
 }
@@ -147,19 +148,47 @@ function animateProjectItems() {
   });
 }
 
-// Initialize skill bars
-function initializeSkillBars() {
+// Initialize skill bars - global function
+window.initSkillBars = function() {
+  console.log('Global initSkillBars called');
   const skillBars = document.querySelectorAll('.skill-bar');
+  
+  if (!skillBars.length) {
+    console.log('No skill bars found in the DOM');
+    return;
+  }
+  
+  console.log(`Found ${skillBars.length} skill bars`);
   
   skillBars.forEach((bar, index) => {
     const level = bar.getAttribute('data-level');
-    bar.style.width = '0';
     
+    // Reset skill bar style
+    bar.style.width = '100%';
+    
+    // Create or update fill bar
+    let fillBar = bar.querySelector('.skill-fill');
+    if (!fillBar) {
+      fillBar = document.createElement('div');
+      fillBar.className = 'skill-fill';
+      fillBar.style.width = '0';
+      fillBar.style.height = '100%';
+      fillBar.style.backgroundColor = 'var(--pixel-green)';
+      fillBar.style.position = 'absolute';
+      fillBar.style.left = '0';
+      fillBar.style.top = '0';
+      fillBar.style.transition = 'width 1s ease-out';
+      bar.appendChild(fillBar);
+    } else {
+      fillBar.style.width = '0';
+    }
+    
+    // Animate the skill bar with delay
     setTimeout(() => {
-      bar.style.width = `${level}%`;
+      fillBar.style.width = `${level}%`;
     }, 100 * index);
   });
-}
+};
 
 // Add floating coins as decorative elements
 function addCoins() {
