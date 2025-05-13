@@ -225,3 +225,191 @@
   83% { border-color: #8800ff; }
   100% { border-color: #ff0000; }
 }
+
+/* Loading Screen Styles */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+.loading-content {
+  width: 80%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.loading-title {
+  font-size: 24px;
+  color: var(--highlight);
+  margin-bottom: 30px;
+  text-shadow: 3px 3px 0 var(--primary);
+}
+
+.loading-bar-container {
+  height: 30px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 4px solid var(--secondary);
+  padding: 4px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.loading-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--accent);
+  position: relative;
+  overflow: hidden;
+  transition: width 0.3s;
+}
+
+.loading-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(200%); }
+}
+
+.loading-character {
+  width: 32px;
+  height: 32px;
+  background-image: url('../images/pixel-art/player.png');
+  background-size: 128px 32px;
+  background-position: 0 0;
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+  animation: loading-run 0.4s steps(4) infinite;
+  image-rendering: pixelated;
+}
+
+@keyframes loading-run {
+  from { background-position: 0 0; }
+  to { background-position: -128px 0; }
+}
+
+.loading-tip {
+  margin-top: 30px;
+  font-size: 12px;
+  color: var(--pixel-yellow);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-tip-content {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.loading-tip-content.fade {
+  opacity: 0;
+}
+
+.loading-interact {
+  margin-top: 40px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.loading-interact.visible {
+  opacity: 1;
+}
+
+.loading-interact p {
+  font-size: 14px;
+  color: var(--highlight);
+  margin-bottom: 15px;
+}
+
+.loading-interact-button {
+  padding: 10px 20px;
+  background-color: var(--accent);
+  color: var(--dark);
+  border: none;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--primary);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.loading-percent {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--dark);
+  z-index: 1;
+}
+
+.loading-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.loading-transition.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-block {
+  position: absolute;
+  background-color: var(--primary);
+  width: calc(100vw / 12);
+  height: 100vh;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.loading-transition.active .loading-block {
+  transform: scaleY(1);
+}
+
+.loading-block:nth-child(1) { left: 0; transition-delay: 0.05s; }
+.loading-block:nth-child(2) { left: calc(100vw / 12); transition-delay: 0.1s; }
+.loading-block:nth-child(3) { left: calc(100vw / 12 * 2); transition-delay: 0.15s; }
+.loading-block:nth-child(4) { left: calc(100vw / 12 * 3); transition-delay: 0.2s; }
+.loading-block:nth-child(5) { left: calc(100vw / 12 * 4); transition-delay: 0.25s; }
+.loading-block:nth-child(6) { left: calc(100vw / 12 * 5); transition-delay: 0.3s; }
+.loading-block:nth-child(7) { left: calc(100vw / 12 * 6); transition-delay: 0.35s; }
+.loading-block:nth-child(8) { left: calc(100vw / 12 * 7); transition-delay: 0.4s; }
+.loading-block:nth-child(9) { left: calc(100vw / 12 * 8); transition-delay: 0.45s; }
+.loading-block:nth-child(10) { left: calc(100vw / 12 * 9); transition-delay: 0.5s; }
+.loading-block:nth-child(11) { left: calc(100vw / 12 * 10); transition-delay: 0.55s; }
+.loading-block:nth-child(12) { left: calc(100vw / 12 * 11); transition-delay: 0.6s; }

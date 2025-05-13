@@ -10,6 +10,42 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <h1 class="loading-title">LOADING GAME...</h1>
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loading-bar">
+          <div class="loading-character"></div>
+          <div class="loading-percent">0%</div>
+        </div>
+      </div>
+      <div class="loading-tip">
+        <div class="loading-tip-content" id="loading-tip">Click on floating coins to collect them!</div>
+      </div>
+      <div class="loading-interact" id="loading-interact">
+        <p>GAME LOADED!</p>
+        <button class="loading-interact-button" id="loading-start">PRESS START</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Transition Effect -->
+  <div class="loading-transition" id="loading-transition">
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+  </div>
+
   <!-- CRT & Scanlines Effects -->
   <div class="scanlines"></div>
   <div class="crt-flicker"></div>
@@ -178,6 +214,7 @@
     </footer>
   </div>
 
+  <script src="js/loading.js"></script>
   <script src="js/main.js"></script>
   <script src="js/platform-game.js"></script>
 </body>
