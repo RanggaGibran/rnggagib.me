@@ -11,7 +11,4 @@
   
   # Redirect /index.html ke root
   RewriteRule ^index\.html$ / [R=301,L]
-  
-  # Redirect /index ke root
-  RewriteRule ^index$ / [R=301,L]
 </IfModule>

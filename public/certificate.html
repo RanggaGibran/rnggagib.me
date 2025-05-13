@@ -239,8 +239,8 @@
       item.addEventListener('click', () => {
         const page = item.getAttribute('data-page');
         if (page) {
-          // Use consistent URL formation across all pages
-          const targetUrl = page === 'index' ? '/' : `/${page}.html`;
+          // Hapus .html dari URL
+          const targetUrl = page === 'index' ? '/' : `/${page}`;
           window.location.href = targetUrl;
         }
       });
@@ -252,3 +252,4 @@
   <script src="js/music-player.js"></script>
 </body>
 </html>
+``` 
