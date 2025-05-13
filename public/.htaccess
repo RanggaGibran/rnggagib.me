@@ -2,10 +2,16 @@
   RewriteEngine On
   RewriteBase /
   
-  # If not an existing file or directory
+  # Jangan rewrite jika file atau direktori ada
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   
-  # Redirect to index.html to let JavaScript handle routing
-  RewriteRule ^(.*)$ index.html [L]
+  # Rewrite untuk URL tanpa ekstensi ke file .html
+  RewriteRule ^([^\.]+)$ $1.html [NC,L]
+  
+  # Redirect /index.html ke root
+  RewriteRule ^index\.html$ / [R=301,L]
+  
+  # Redirect /index ke root
+  RewriteRule ^index$ / [R=301,L]
 </IfModule>

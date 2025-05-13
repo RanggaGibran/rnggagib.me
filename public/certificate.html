@@ -35,13 +35,13 @@
       <div class="pixel-logo">RNGGAGIB.ME</div>
       <div class="menu-toggle">≡</div>
       <ul class="menu-items">
-        <li class="menu-item" data-page="index.html">HOME</li>
-        <li class="menu-item" data-page="projects.html">PROJECTS</li>
-        <li class="menu-item" data-page="skills.html">SKILLS</li>
-        <li class="menu-item" data-page="about.html">ABOUT</li>
-        <li class="menu-item" data-page="contact.html">CONTACT</li>
-        <li class="menu-item hidden-item" data-page="game.html">GAME</li>
-        <li class="menu-item active" data-page="certificate.html">ACHIEVEMENTS</li>
+        <li class="menu-item" data-page="index">HOME</li>
+        <li class="menu-item" data-page="projects">PROJECTS</li>
+        <li class="menu-item" data-page="skills">SKILLS</li>
+        <li class="menu-item" data-page="about">ABOUT</li>
+        <li class="menu-item" data-page="contact">CONTACT</li>
+        <li class="menu-item hidden-item" data-page="game">GAME</li>
+        <li class="menu-item active" data-page="certificate">ACHIEVEMENTS</li>
       </ul>
     </nav>
 
@@ -239,7 +239,11 @@
       item.addEventListener('click', () => {
         const page = item.getAttribute('data-page');
         if (page) {
-          window.location.href = page;
+          if (page === 'index') {
+            window.location.href = '/';
+          } else {
+            window.location.href = '/' + page;
+          }
         }
       });
     });
