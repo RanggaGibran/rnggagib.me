@@ -151,6 +151,7 @@ body {
   border: 4px solid var(--secondary);
   position: relative;
   background-color: var(--dark);
+  min-width: 400px;
 }
 
 .speech-bubble::before {
@@ -173,16 +174,22 @@ body {
 }
 
 .typewriter {
-  overflow: hidden;
-  white-space: nowrap;
   border-right: 3px solid var(--accent);
-  width: 0;
-  animation: typing 3.5s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
+  white-space: normal; /* Change from nowrap to normal */
+  overflow: hidden;
+  display: inline-block;
+  width: auto;
+  max-width: 100%; 
+  animation: blink-caret 0.75s step-end infinite;
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+.char {
+  opacity: 0;
+  animation: char-reveal 0.1s forwards;
+}
+
+@keyframes char-reveal {
+  to { opacity: 1; }
 }
 
 @keyframes blink-caret {

@@ -1,4 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Improve typewriter animation
+  const typewriterText = document.querySelector('.typewriter');
+  if (typewriterText) {
+    const text = "I build awesome web experiences";
+    typewriterText.textContent = '';
+    
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      if (i < text.length) {
+        typewriterText.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 100);
+  }
+
+  // Add this after DOM loads
+  const typewriterElem = document.querySelector('.typewriter');
+  if (typewriterElem) {
+    const text = "I build awesome web experiences";
+    typewriterElem.textContent = '';
+    
+    // Split into characters
+    text.split('').forEach((char, index) => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = char;
+      span.style.animationDelay = `${index * 0.1}s`;
+      typewriterElem.appendChild(span);
+    });
+  }
+
   // Navigation
   const menuItems = document.querySelectorAll('.menu-item');
   const sections = document.querySelectorAll('.game-level');
