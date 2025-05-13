@@ -1,6 +1,13 @@
 class ThemeSwitcher {
   constructor() {
     this.themeSwitcher = document.querySelector('.theme-switcher');
+    
+    // Exit early if theme switcher not found
+    if (!this.themeSwitcher) {
+      console.warn('Theme switcher element not found');
+      return;
+    }
+    
     this.themeIcon = document.querySelector('.theme-icon');
     this.themeMenu = document.querySelector('.theme-menu');
     this.themeOptions = document.querySelectorAll('.theme-option');
@@ -12,6 +19,9 @@ class ThemeSwitcher {
   }
   
   init() {
+    // Guard clause
+    if (!this.themeIcon || !this.themeSwitcher) return;
+    
     // Set up initial theme
     this.applyTheme(this.currentTheme);
     this.updateActiveOption();

@@ -2,7 +2,21 @@
 class LoadingScreen {
   constructor() {
     this.loadingScreen = document.getElementById('loading-screen');
+    
+    // Exit early if loading screen not found
+    if (!this.loadingScreen) {
+      console.warn('Loading screen element not found');
+      return;
+    }
+    
     this.loadingBar = document.getElementById('loading-bar');
+    
+    // Exit if loading bar not found
+    if (!this.loadingBar) {
+      console.warn('Loading bar element not found');
+      return;
+    }
+    
     this.loadingPercent = this.loadingBar.querySelector('.loading-percent');
     this.loadingTip = document.getElementById('loading-tip');
     this.loadingInteract = document.getElementById('loading-interact');
@@ -29,7 +43,11 @@ class LoadingScreen {
     this.init();
   }
   
+  // Modifikasi juga method lain untuk memastikan mereka memeriksa keberadaan elemen
   init() {
+    // Guard clause untuk mencegah error jika elemen tidak ditemukan
+    if (!this.loadingStart || !this.loadingScreen) return;
+    
     // Set up event listener for start button
     this.loadingStart.addEventListener('click', () => {
       this.hideLoadingScreen();
@@ -44,7 +62,8 @@ class LoadingScreen {
     // Actually count the images to load
     this.countAssetsAndLoad();
   }
-    preloadImages() {
+  
+  preloadImages() {
     const imagesToPreload = [
       'images/pixel-art/player.png',
       'images/pixel-art/avatar.png', 
@@ -79,7 +98,7 @@ class LoadingScreen {
         this.updateLoadingBar();
       }, 100);
     }
-        this.preloadImages().then(() => {
+    this.preloadImages().then(() => {
       console.log('All critical images preloaded');
     });
   }
