@@ -330,6 +330,36 @@
       </div>
     </div>
 
+    <!-- Audio player langsung dimasukkan -->
+    <div class="audio-player" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #1a1a2e; border: 2px solid #4ecca3; padding: 10px; border-radius: 5px;">
+      <audio id="background-music" loop>
+        <source src="audio/background.mp3" type="audio/mpeg">
+      </audio>
+      <button onclick="toggleMusic()" class="pixel-button" style="margin-right: 10px;">♫</button>
+      <input type="range" min="0" max="100" value="30" onchange="changeVolume(this.value)" style="width: 100px;">
+      <script>
+        function toggleMusic() {
+          var music = document.getElementById('background-music');
+          if (music.paused) {
+            music.play();
+          } else {
+            music.pause();
+          }
+        }
+        function changeVolume(val) {
+          document.getElementById('background-music').volume = val / 100;
+        }
+        // Auto-play setelah interaksi pertama dengan halaman
+        document.body.addEventListener('click', function() {
+          var music = document.getElementById('background-music');
+          if (music.paused) {
+            music.volume = 0.3;
+            music.play().catch(e => console.log('Autoplay prevented'));
+          }
+        }, {once: true});
+      </script>
+    </div>
+
     <!-- Game controls/footer -->
     <footer class="game-controls">
       <div class="social-links">
