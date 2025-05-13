@@ -83,6 +83,16 @@
         }
       }, 1000);
     });
+
+    // Ganti bagian audio player dengan kode ini
+    // Cek apakah audio player sudah ada di halaman
+    if (!document.querySelector('.audio-player')) {
+      // Jika tidak ada, maka tambahkan
+      console.log('Audio player not found, including from footer');
+      // Kode audio player dari includes/footer.html
+    } else {
+      console.log('Audio player already exists');
+    }
   </script>
 </body>
 </html>

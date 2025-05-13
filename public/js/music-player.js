@@ -1,3 +1,32 @@
+// Tambahkan di bagian atas file
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Cek apakah player sudah diinisialisasi secara inline
+  const inlinePlayer = document.getElementById('background-music');
+  if (inlinePlayer) {
+    console.log('Using inline music player');
+    
+    // Buat instance MusicPlayer hanya jika tombol dan slider tidak ada
+    if (!document.getElementById('music-toggle') && !document.getElementById('volume-slider')) {
+      setTimeout(() => {
+        window.musicPlayer = new MusicPlayer();
+      }, 1000);
+    }
+    
+    // Tambahkan event untuk transisi halaman
+    document.addEventListener('page:change', () => {
+      if (!inlinePlayer.paused && localStorage.getItem('pixelPortfolio_musicPlaying') !== 'false') {
+        inlinePlayer.play().catch(e => console.log('Page transition play prevented'));
+      }
+    });
+  } else {
+    // Jika tidak ada player inline, inisialisasi music player
+    setTimeout(() => {
+      window.musicPlayer = new MusicPlayer();
+    }, 1000);
+  }
+});
+
 // Music Player Controller
 class MusicPlayer {
   constructor() {
@@ -161,11 +190,3 @@ class MusicPlayer {
     }
   }
 }
-
-// Initialize music player when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  // Small delay to ensure audio element is ready
-  setTimeout(() => {
-    window.musicPlayer = new MusicPlayer();
-  }, 1000);
-});

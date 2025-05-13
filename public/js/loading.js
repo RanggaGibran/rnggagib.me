@@ -170,16 +170,6 @@ class LoadingScreen {
       window.playPixelSound('start');
     }
     
-    // Start background music if available
-    if (window.musicPlayer && !window.musicPlayer.isMuted) {
-      window.musicPlayer.play();
-    }
-    
-    // Show achievement
-    if (window.showAchievement) {
-      window.showAchievement('GAME STARTED!');
-    }
-    
     // Ensure complete removal after transition
     setTimeout(() => {
       this.loadingScreen.style.display = 'none';
@@ -187,6 +177,25 @@ class LoadingScreen {
       // Dispatch custom event when loading is completely done
       const loadingCompleteEvent = new CustomEvent('loadingComplete');
       document.dispatchEvent(loadingCompleteEvent);
+      
+      // Start background music
+      setTimeout(() => {
+        const musicPlayer = document.getElementById('background-music');
+        if (musicPlayer && musicPlayer.paused && 
+            localStorage.getItem('pixelPortfolio_musicPlaying') !== 'false') {
+          try {
+            musicPlayer.play().then(() => {
+              const musicToggle = document.getElementById('music-toggle');
+              const musicStatus = document.getElementById('music-status');
+              if (musicToggle) musicToggle.innerHTML = "◼";
+              if (musicStatus) musicStatus.textContent = "Playing";
+              if (musicToggle) musicToggle.style.backgroundColor = "#4ecca3";
+            }).catch(e => console.log('Auto-play prevented after loading'));
+          } catch (e) {
+            console.log('Music player error:', e);
+          }
+        }
+      }, 500);
     }, 500);
   }
   

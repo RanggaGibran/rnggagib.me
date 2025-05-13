@@ -558,7 +558,7 @@ body {
 .audio-player {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20px; /* Ubah ke kiri */
   z-index: 1000;
   background-color: var(--dark);
   border: 2px solid var(--accent);
@@ -567,8 +567,7 @@ body {
   display: flex;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  transform: translateY(calc(100% - 40px));
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .audio-player:hover {
@@ -579,65 +578,52 @@ body {
   transform: translateY(0);
 }
 
-.audio-button {
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: var(--secondary);
-  border: 2px solid var(--accent);
-  color: var(--light);
-  margin-right: 10px;
-  min-width: 40px;
+/* Animasi musik bermain */
+@keyframes musicPlaying {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-.audio-button:hover {
+#music-toggle.playing {
+  animation: musicPlaying 1s infinite;
   background-color: var(--accent);
 }
 
-.audio-button.muted .music-icon {
-  text-decoration: line-through;
-  opacity: 0.6;
+#music-toggle {
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.volume-control {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+#music-toggle:hover {
+  transform: scale(1.1);
 }
 
-.pixel-slider {
+/* Status musik */
+#music-status {
+  font-size: 10px;
+  font-family: 'Press Start 2P', cursive;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* Volume slider styling */
+#volume-slider {
   -webkit-appearance: none;
-  appearance: none;
-  width: 100px;
+  width: 100%;
   height: 6px;
-  background-color: var(--secondary);
-  border: 1px solid var(--accent);
+  background: var(--secondary);
+  border-radius: 3px;
   outline: none;
 }
 
-.pixel-slider::-webkit-slider-thumb {
+#volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 12px;
   height: 12px;
-  background-color: var(--accent);
+  border-radius: 50%;
+  background: var(--accent);
   cursor: pointer;
-  border: 1px solid var(--light);
-}
-
-.pixel-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  background-color: var(--accent);
-  cursor: pointer;
-  border: 1px solid var(--light);
-}
-
-.volume-value {
-  font-size: 12px;
-  color: var(--light);
-  width: 40px;
-  text-align: center;
 }
 
 /* Small tab at top to indicate hover zone */
