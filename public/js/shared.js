@@ -88,24 +88,59 @@ function checkGameUnlock() {
 function initSkillBars() {
   const skillBars = document.querySelectorAll('.skill-bar');
   
+  if (!skillBars.length) {
+    console.log('No skill bars found in the DOM');
+    return;
+  }
+  
+  console.log(`Found ${skillBars.length} skill bars`);
+  
   skillBars.forEach(bar => {
-    const level = bar.getAttribute('data-level');
-    bar.style.width = '0%';
+    const level = bar.getAttribute('data-level') || '0';
+    // Reset bar width to ensure animation works
+    if (bar.style) {
+      bar.style.setProperty('--skill-level', '0%');
+    }
     
-    // Animate skill bars when they come into view
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            bar.style.width = `${level}%`;
-          }, 100);
-          observer.unobserve(entry.target);
-        }
-      });
+    // Use requestAnimationFrame for smoother animation
+    requestAnimationFrame(() => {
+      // Create a colored bar inside the skill bar
+      if (!bar.querySelector('.skill-fill')) {
+        const fillBar = document.createElement('div');
+        fillBar.className = 'skill-fill';
+        fillBar.style.width = '0%';
+        fillBar.style.height = '100%';
+        fillBar.style.backgroundColor = 'var(--pixel-green)';
+        fillBar.style.position = 'absolute';
+        fillBar.style.left = '0';
+        fillBar.style.top = '0';
+        fillBar.style.transition = 'width 1s ease-out';
+        bar.appendChild(fillBar);
+        
+        // Add a delay before animating
+        setTimeout(() => {
+          fillBar.style.width = `${level}%`;
+        }, 300);
+      } else {
+        // Just update existing fill bar
+        const fillBar = bar.querySelector('.skill-fill');
+        setTimeout(() => {
+          fillBar.style.width = `${level}%`;
+        }, 300);
+      }
     });
-    
-    observer.observe(bar);
   });
+  
+  // Fallback untuk browser tanpa IntersectionObserver
+  setTimeout(() => {
+    skillBars.forEach(bar => {
+      if (bar.querySelector('.skill-fill')?.style.width === '0%') {
+        const level = bar.getAttribute('data-level') || '0';
+        const fillBar = bar.querySelector('.skill-fill') || bar;
+        fillBar.style.width = `${level}%`;
+      }
+    });
+  }, 1000);
 }
 
 // Project items animation

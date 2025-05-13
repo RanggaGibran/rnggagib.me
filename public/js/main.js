@@ -12,6 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Set up URL routing
   setupRouting();
+  
+  // Pastikan skill bars diinisialisasi pada halaman skills
+  const currentPath = window.location.pathname;
+  
+  // Jika kita berada di halaman skills, inisialisasi skill bar
+  if (currentPath.includes('skills') || document.getElementById('skills')) {
+    console.log('Skills page detected, initializing skill bars');
+    // Panggil initSkillBars dengan delay singkat untuk memastikan DOM telah dimuat
+    setTimeout(() => {
+      if (typeof initSkillBars === 'function') {
+        initSkillBars();
+      } else if (typeof window.initSkillBars === 'function') {
+        window.initSkillBars();
+      } else {
+        console.error('initSkillBars function not found');
+      }
+    }, 500);
+  }
 });
 
 // Handle URL routing dan navigation
