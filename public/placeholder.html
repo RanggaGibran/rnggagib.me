@@ -1,0 +1,40 @@
+<!-- This is just to create temporary placeholder images - put this in a temporary file -->
+<style>
+  .placeholder {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    background-color: #333;
+    margin: 10px;
+    position: relative;
+  }
+  .placeholder::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+  }
+  .creativity { background-color: #ff7700; }
+  .problem-solving { background-color: #4488ff; }
+  .teamwork { background-color: #44dd88; }
+  .adaptability { background-color: #aa66ff; }
+  .projects { background-color: gold; }
+  .responsive { background-color: teal; }
+  .code { background-color: crimson; }
+  .locked { background-color: #555; }
+</style>
+
+<!-- Placeholder for attribute icons -->
+<div class="placeholder creativity" data-name="creativity"></div>
+<div class="placeholder problem-solving" data-name="problem-solving"></div>
+<div class="placeholder teamwork" data-name="teamwork"></div>
+<div class="placeholder adaptability" data-name="adaptability"></div>
+
+<!-- Placeholder for badge icons -->
+<div class="placeholder projects" data-name="badge-projects"></div>
+<div class="placeholder responsive" data-name="badge-responsive"></div>
+<div class="placeholder code" data-name="badge-code"></div>
+<div class="placeholder locked" data-name="badge-locked"></div>

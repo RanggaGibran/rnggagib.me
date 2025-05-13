@@ -128,6 +128,8 @@ async function navigateToSection(sectionId) {
         animateProjectItems();
       } else if (sectionId === 'skills') {
         window.initSkillBars();
+      } else if (sectionId === 'about') {
+        initCharacterAttributes();
       }
     }
     
@@ -170,6 +172,9 @@ function showSection(sectionId) {
     } else if (sectionId === 'skills') {
       // Panggil fungsi global
       window.initSkillBars();
+    } else if (sectionId === 'about') {
+      // Initialize character attributes
+      initCharacterAttributes();
     }
   }
 }
@@ -625,3 +630,27 @@ window.incrementCoins = function() {
 window.showAchievement = function(message) {
   // Your achievement code...
 };
+
+// Initialize character attributes
+function initCharacterAttributes() {
+  const attributeBars = document.querySelectorAll('.attribute-bar');
+  
+  attributeBars.forEach((bar, index) => {
+    const value = bar.getAttribute('data-value');
+    
+    // Animate the attribute bar with delay
+    setTimeout(() => {
+      bar.style.width = `${value}%`;
+    }, 200 * index);
+  });
+  
+  // Add hovering effect to achievement badges
+  const badges = document.querySelectorAll('.achievement-badge');
+  badges.forEach(badge => {
+    badge.addEventListener('mouseenter', () => {
+      if (!badge.classList.contains('locked') && window.playPixelSound) {
+        window.playPixelSound('click');
+      }
+    });
+  });
+}
