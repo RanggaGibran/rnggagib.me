@@ -19,6 +19,7 @@
 </head>
 <body>
   <!-- Loading Screen -->
+  <!--
   <div class="loading-screen" id="loading-screen">
     <div class="loading-content">
       <h1 class="loading-title">LOADING GAME...</h1>
@@ -37,6 +38,7 @@
       </div>
     </div>
   </div>
+  -->
 
   <!-- Transition Effect -->
   <div class="loading-transition" id="loading-transition">
@@ -213,97 +215,29 @@
   </script>
   
   <!-- Include scripts -->
+  <script>
+    // Tambahkan polyfill untuk fungsi-fungsi yang mungkin tidak tersedia
+    if (!window.playPixelSound) {
+      window.playPixelSound = function() {};
+    }
+    
+    if (!window.showAchievement) {
+      window.showAchievement = function() {};
+    }
+  </script>
   <script src="js/shared.js"></script>
-  <script src="js/loading.js"></script>
-  <script src="js/main.js"></script>
   <script src="js/theme-switcher.js"></script>
   <script src="js/music-player.js"></script>
   <script>
-    // Khusus untuk halaman certificate
-    document.addEventListener('DOMContentLoaded', function() {
-      // Tambahkan audio player yang sama seperti di index.html
-      if (!document.querySelector('.audio-player')) {
-        const audioPlayerHTML = `
-          <div class="audio-player visible" style="position: fixed; bottom: 70px; left: 15px; z-index: 9999; background: #1a1a2e; border: 2px solid #4ecca3; padding: 6px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.5); max-width: 40px; overflow: hidden; transition: max-width 0.3s ease, opacity 0.3s ease; opacity: 0.8;">
-            <audio id="background-music" loop preload="auto">
-              <source src="audio/background.mp3" type="audio/mpeg">
-            </audio>
-            <button id="music-toggle" class="pixel-button" style="margin-bottom: 6px; min-width: 30px; position: relative; font-size: 12px;">♫</button>
-            <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
-              <input type="range" id="volume-slider" min="0" max="100" value="30" style="width: 80px; transform: rotate(-90deg); transform-origin: 40px 40px; margin-top: 30px; margin-bottom: 30px;">
-              <div style="display: flex; justify-content: center; width: 100%; font-size: 7px; color: #4ecca3;">
-                <span id="music-status">Paused</span>
-              </div>
-            </div>
-          </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', audioPlayerHTML);
+    // Navigasi menu
+    document.querySelectorAll('.menu-item[data-page]').forEach(item => {
+      item.addEventListener('click', () => {
+        const page = item.getAttribute('data-page');
         
-        // Tambahkan interaksi hover untuk audio player
-        const audioPlayer = document.querySelector('.audio-player');
-        audioPlayer.addEventListener('mouseenter', function() {
-          this.style.maxWidth = '100px';
-          this.style.opacity = '1';
-        });
-        audioPlayer.addEventListener('mouseleave', function() {
-          this.style.maxWidth = '40px';
-          this.style.opacity = '0.8';
-        });
-      }
-      
-      // Tambahkan theme switcher jika belum ada
-      if (!document.querySelector('.theme-switcher')) {
-        const themeSwitcherHTML = `
-          <div class="theme-switcher">
-            <div class="theme-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path fill="currentColor" d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2S2 6.48 2 12s4.48 10 10 10zm0-18c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8z"></path>
-                <path fill="currentColor" d="M12 16a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path>
-              </svg>
-            </div>
-            <div class="theme-menu">
-              <div class="theme-option" data-theme="default" title="Default Theme">
-                <div class="theme-preview default"></div>
-                <span>Default</span>
-              </div>
-              <div class="theme-option" data-theme="night" title="Night Theme">
-                <div class="theme-preview night"></div>
-                <span>Night</span>
-              </div>
-              <div class="theme-option" data-theme="gameboy" title="Gameboy Theme">
-                <div class="theme-preview gameboy"></div>
-                <span>Gameboy</span>
-              </div>
-              <div class="theme-option" data-theme="nes" title="NES Theme">
-                <div class="theme-preview nes"></div>
-                <span>NES</span>
-              </div>
-              <div class="theme-option auto-night" data-auto="night">
-                <div class="auto-toggle">
-                  <div class="auto-toggle-slider"></div>
-                </div>
-                <span>Auto Night</span>
-              </div>
-            </div>
-          </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', themeSwitcherHTML);
-      }
-    });
-  </script>
-
-  <script>
-    // Bypass loading screen pada halaman certificate
-    document.addEventListener('DOMContentLoaded', () => {
-      // Sembunyikan loading screen segera
-      const loadingScreen = document.getElementById('loading-screen');
-      if (loadingScreen) {
-        loadingScreen.style.opacity = '0';
-        loadingScreen.style.visibility = 'hidden';
-        setTimeout(() => {
-          loadingScreen.style.display = 'none';
-        }, 300);
-      }
+        if (page) {
+          window.location.href = page;
+        }
+      });
     });
   </script>
 </body>

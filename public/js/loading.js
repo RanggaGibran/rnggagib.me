@@ -41,6 +41,16 @@ class LoadingScreen {
     this.assetsLoaded = false;
     
     this.init();
+    
+    // Force timeout untuk mencegah loading screen terjebak
+    setTimeout(() => {
+      if (this.loadingScreen && 
+          this.loadingScreen.style.opacity !== '0' && 
+          this.loadingScreen.style.visibility !== 'hidden') {
+        console.warn('Force closing loading screen after timeout');
+        this.hideLoadingScreen();
+      }
+    }, 8000); // Tunggu maksimal 8 detik
   }
   
   // Modifikasi juga method lain untuk memastikan mereka memeriksa keberadaan elemen
@@ -272,7 +282,72 @@ class LoadingScreen {
   }
 }
 
+// Tambahkan class untuk Simple Loading Screen
+class SimpleLoadingScreen {
+  constructor(loadingScreen) {
+    this.loadingScreen = loadingScreen;
+    this.loadingTransition = document.getElementById('loading-transition');
+    
+    // Auto-hide setelah 1 detik
+    setTimeout(() => {
+      this.hideLoadingScreen();
+    }, 1000);
+  }
+  
+  hideLoadingScreen() {
+    if (this.loadingScreen) {
+      this.loadingScreen.style.opacity = '0';
+      this.loadingScreen.style.visibility = 'hidden';
+      
+      setTimeout(() => {
+        this.loadingScreen.style.display = 'none';
+      }, 300);
+    }
+  }
+  
+  showTransition(duration = 300) {
+    return new Promise(resolve => {
+      if (this.loadingTransition) {
+        this.loadingTransition.classList.add('active');
+      }
+      
+      setTimeout(() => {
+        resolve();
+        
+        setTimeout(() => {
+          this.hideTransition();
+        }, 200);
+      }, duration);
+    });
+  }
+  
+  hideTransition() {
+    if (this.loadingTransition) {
+      this.loadingTransition.classList.remove('active');
+    }
+  }
+}
+
 // Initialize on document ready
 document.addEventListener('DOMContentLoaded', () => {
-  window.loadingScreen = new LoadingScreen();
+  // Cek apakah ini halaman certificate atau halaman sub lainnya
+  const isSubPage = window.location.pathname.includes('certificate.html') || 
+                    window.location.pathname.includes('projects.html') ||
+                    window.location.pathname.includes('skills.html') ||
+                    window.location.pathname.includes('about.html') ||
+                    window.location.pathname.includes('contact.html');
+
+  // Jika ini subpage, lewati loading screen atau gunakan mode simple
+  if (isSubPage) {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+      // Berikan loading cepat (1 detik) untuk subpage
+      window.loadingScreen = new SimpleLoadingScreen(loadingScreen);
+    } else {
+      console.warn('Loading screen element not found on subpage');
+    }
+  } else {
+    // Gunakan loading screen normal untuk homepage
+    window.loadingScreen = new LoadingScreen();
+  }
 });
