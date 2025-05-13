@@ -575,6 +575,10 @@ body {
   transform: translateY(0);
 }
 
+.audio-player.visible {
+  transform: translateY(0);
+}
+
 .audio-button {
   padding: 5px 10px;
   font-size: 14px;
