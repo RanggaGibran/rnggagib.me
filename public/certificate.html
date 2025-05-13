@@ -291,6 +291,20 @@
       }
     });
   </script>
+
+  <script>
+    // Bypass loading screen pada halaman certificate
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sembunyikan loading screen segera
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 300);
+      }
+    });
+  </script>
 </body>
 </html>
-``` 
