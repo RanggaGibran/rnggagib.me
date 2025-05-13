@@ -155,6 +155,13 @@ class LoadingScreen {
   }
   
   hideLoadingScreen() {
+    // Check if theme change animation is still active
+    const themeAnimation = document.querySelector('.theme-change-animation');
+    if (themeAnimation) {
+      themeAnimation.innerHTML = '';
+      themeAnimation.classList.remove('active');
+    }
+
     this.loadingScreen.style.opacity = '0';
     this.loadingScreen.style.visibility = 'hidden';
     
@@ -167,6 +174,11 @@ class LoadingScreen {
     if (window.showAchievement) {
       window.showAchievement('GAME STARTED!');
     }
+    
+    // Ensure complete removal after transition
+    setTimeout(() => {
+      this.loadingScreen.style.display = 'none';
+    }, 500);
   }
   
   cycleTips() {

@@ -164,10 +164,13 @@ input, textarea, .game-screen, .loading-transition, .loading-block {
   pointer-events: none;
   z-index: 10000;
   opacity: 0;
+  visibility: hidden; /* Add explicit visibility control */
+  transition: opacity 0.3s;
 }
 
 .theme-change-animation.active {
   opacity: 1;
+  visibility: visible;
 }
 
 .theme-pixel {
@@ -175,8 +178,9 @@ input, textarea, .game-screen, .loading-transition, .loading-block {
   width: 10px;
   height: 10px;
   background-color: var(--accent);
-  transition: opacity 0.5s;
+  transition: opacity 0.3s ease; /* Make sure transition is defined */
   image-rendering: pixelated;
+  will-change: opacity; /* Improve performance */
 }
 
 /* Auto Night Toggle */

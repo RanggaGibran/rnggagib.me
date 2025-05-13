@@ -100,6 +100,16 @@ class ThemeSwitcher {
   }
   
   applyTheme(theme) {
+    // Don't change theme if still loading
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen && 
+        loadingScreen.style.opacity !== '0' && 
+        loadingScreen.style.visibility !== 'hidden') {
+      console.log('Loading in progress, theme change delayed');
+      setTimeout(() => this.applyTheme(theme), 1000);
+      return;
+    }
+    
     // Add pixel animation when changing themes
     this.animateThemeChange();
     
@@ -129,13 +139,16 @@ class ThemeSwitcher {
     // Clear previous animation
     container.innerHTML = '';
     
-    // Create pixels
-    const pixelSize = 10;
+    // Create fewer pixels - reduce density by 2x
+    const pixelSize = 20; // Increased from 10 to 20
     const cols = Math.ceil(window.innerWidth / pixelSize);
     const rows = Math.ceil(window.innerHeight / pixelSize);
+    const maxPixels = 300; // Limit maximum number of pixels
     
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
+    let pixelCount = 0;
+    
+    for (let i = 0; i < cols && pixelCount < maxPixels; i += 2) {
+      for (let j = 0; j < rows && pixelCount < maxPixels; j += 2) {
         const pixel = document.createElement('div');
         pixel.className = 'theme-pixel';
         pixel.style.left = `${i * pixelSize}px`;
@@ -143,23 +156,42 @@ class ThemeSwitcher {
         pixel.style.opacity = '0';
         
         // Random opacity timing for pixel-dissolve effect
-        const delay = Math.random() * 0.5;
+        const delay = Math.random() * 0.3; // Reduced from 0.5 to 0.3
         setTimeout(() => {
           pixel.style.opacity = '1';
           setTimeout(() => {
             pixel.style.opacity = '0';
-          }, 300);
+            // Remove the pixel element after transition
+            setTimeout(() => {
+              if (pixel.parentNode === container) {
+                container.removeChild(pixel);
+              }
+            }, 300);
+          }, 250); // Reduced from 300 to 250
         }, delay * 1000);
         
         container.appendChild(pixel);
+        pixelCount++;
       }
     }
     
-    // Show and then hide container
+    // Show and then hide container with cleanup
     container.classList.add('active');
     setTimeout(() => {
       container.classList.remove('active');
-    }, 800);
+      // Force cleanup after animation
+      setTimeout(() => {
+        container.innerHTML = '';
+      }, 300);
+    }, 600); // Reduced from 800 to 600
+    
+    // Safety cleanup after 3 seconds no matter what
+    setTimeout(() => {
+      if (container && document.body.contains(container)) {
+        container.innerHTML = '';
+        container.classList.remove('active');
+      }
+    }, 3000);
   }
   
   updateActiveOption() {
