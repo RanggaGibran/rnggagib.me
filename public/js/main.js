@@ -67,13 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Navigate to the page
       if (page) {
+        // Fix: Pastikan URL terbentuk dengan benar
+        const targetUrl = page === 'index' ? '/' : `/${page}.html`;
+        
         // Add transition effect if available
         if (window.loadingScreen && window.loadingScreen.showTransition) {
           window.loadingScreen.showTransition(300).then(() => {
-            window.location.href = page;
+            window.location.href = targetUrl;
           });
         } else {
-          window.location.href = page;
+          window.location.href = targetUrl;
         }
       }
     });

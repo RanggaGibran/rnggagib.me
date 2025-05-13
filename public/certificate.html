@@ -234,16 +234,14 @@
       }
     });
     
-    // Navigation
+    // Navigation with consistent URL formation
     document.querySelectorAll('.menu-item[data-page]').forEach(item => {
       item.addEventListener('click', () => {
         const page = item.getAttribute('data-page');
         if (page) {
-          if (page === 'index') {
-            window.location.href = '/';
-          } else {
-            window.location.href = '/' + page;
-          }
+          // Use consistent URL formation across all pages
+          const targetUrl = page === 'index' ? '/' : `/${page}.html`;
+          window.location.href = targetUrl;
         }
       });
     });
@@ -254,3 +252,4 @@
   <script src="js/music-player.js"></script>
 </body>
 </html>
+``` 
