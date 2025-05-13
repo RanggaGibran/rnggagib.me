@@ -173,28 +173,88 @@ body {
   color: var(--accent);
 }
 
+/* Update the typewriter styles */
 .typewriter {
-  border-right: 3px solid var(--accent);
-  white-space: normal; /* Change from nowrap to normal */
-  overflow: hidden;
   display: inline-block;
-  width: auto;
-  max-width: 100%; 
-  animation: blink-caret 0.75s step-end infinite;
+  min-width: 320px;
+  min-height: 1.6em;
+  position: relative;
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  color: var(--accent);
+  animation: cursor-blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes cursor-blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .char {
+  display: inline-block;
+  transform: translateY(10px);
   opacity: 0;
-  animation: char-reveal 0.1s forwards;
 }
 
-@keyframes char-reveal {
+@keyframes char-rise {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.word-complete {
+  animation: word-pulse 0.3s forwards;
+}
+
+@keyframes word-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.highlight-word .char {
+  color: var(--accent);
+  text-shadow: 0 0 3px var(--accent), 0 0 5px rgba(65, 166, 246, 0.4);
+}
+
+.glitch {
+  animation: glitch-effect 0.3s linear;
+}
+
+@keyframes glitch-effect {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.typewriter-replay {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 0.8em;
+  color: var(--accent);
+  vertical-align: middle;
+  animation: replay-appear 0.5s forwards;
+  opacity: 0;
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+
+.typewriter-replay:hover {
+  transform: rotate(180deg);
+}
+
+@keyframes replay-appear {
   to { opacity: 1; }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: var(--accent) }
 }
 
 .cta-button {

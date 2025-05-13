@@ -1,35 +1,158 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Improve typewriter animation
-  const typewriterText = document.querySelector('.typewriter');
-  if (typewriterText) {
-    const text = "I build awesome web experiences";
-    typewriterText.textContent = '';
-    
-    let i = 0;
-    const typeInterval = setInterval(() => {
-      if (i < text.length) {
-        typewriterText.textContent += text.charAt(i);
-        i++;
-      } else {
-        clearInterval(typeInterval);
-      }
-    }, 100);
-  }
-
-  // Add this after DOM loads
+  // Remove existing typewriter implementations
   const typewriterElem = document.querySelector('.typewriter');
+  
   if (typewriterElem) {
-    const text = "I build awesome web experiences";
-    typewriterElem.textContent = '';
+    // Clear any existing animations
+    if (window.typewriterInterval) {
+      clearInterval(window.typewriterInterval);
+    }
     
-    // Split into characters
-    text.split('').forEach((char, index) => {
-      const span = document.createElement('span');
-      span.className = 'char';
-      span.textContent = char;
-      span.style.animationDelay = `${index * 0.1}s`;
-      typewriterElem.appendChild(span);
+    // Set up new enhanced typewriter
+    const text = "I build awesome web experiences";
+    typewriterElem.innerHTML = ''; // Clear existing content
+    
+    // Create the cursor element
+    const cursor = document.createElement('span');
+    cursor.className = 'typewriter-cursor';
+    cursor.innerHTML = '█';
+    
+    // Add the cursor
+    typewriterElem.appendChild(cursor);
+    
+    // Split text into words for word-level effects
+    const words = text.split(' ');
+    let charIndex = 0;
+    let wordIndex = 0;
+    let currentWord = '';
+    
+    // Add all words with spans but make them invisible
+    words.forEach((word, idx) => {
+      const wordContainer = document.createElement('span');
+      wordContainer.className = 'word';
+      wordContainer.style.opacity = '0';
+      wordContainer.style.position = 'relative';
+      
+      // Special styling for key words
+      if (word === 'awesome') {
+        wordContainer.classList.add('highlight-word');
+      }
+      
+      // Add each character of the word
+      word.split('').forEach(char => {
+        const charSpan = document.createElement('span');
+        charSpan.textContent = char;
+        charSpan.className = 'char';
+        charSpan.style.opacity = '0';
+        charSpan.style.position = 'relative';
+        wordContainer.appendChild(charSpan);
+      });
+      
+      // Add space after word (except last word)
+      if (idx < words.length - 1) {
+        const space = document.createElement('span');
+        space.innerHTML = '&nbsp;';
+        space.style.opacity = '0';
+        wordContainer.appendChild(space);
+      }
+      
+      // Insert before cursor
+      typewriterElem.insertBefore(wordContainer, cursor);
     });
+    
+    // Get all character spans
+    const charSpans = typewriterElem.querySelectorAll('.char');
+    const wordSpans = typewriterElem.querySelectorAll('.word');
+    
+    // Typing animation function with variable speed
+    const typeNextChar = () => {
+      if (charIndex < charSpans.length) {
+        const currentChar = charSpans[charIndex];
+        currentChar.style.opacity = '1';
+        
+        // Add special effects randomly
+        if (Math.random() < 0.1) {
+          // Glitch effect on random chars
+          applyGlitchEffect(currentChar);
+        }
+        
+        // Rise up animation
+        currentChar.style.animation = 'char-rise 0.2s forwards';
+        
+        // Move to next character
+        charIndex++;
+        
+        // Make word visible when all its characters are typed
+        const parentWord = currentChar.parentNode;
+        const wordChars = parentWord.querySelectorAll('.char');
+        const allCharsVisible = Array.from(wordChars).every(char => char.style.opacity === '1');
+        
+        if (allCharsVisible) {
+          parentWord.style.opacity = '1';
+          const space = parentWord.querySelector('span:not(.char)');
+          if (space) space.style.opacity = '1';
+          
+          // Apply word completion effect
+          parentWord.classList.add('word-complete');
+          playPixelSound('click');
+        }
+        
+        // Variable speed typing
+        const randomDelay = 70 + Math.random() * 60;
+        setTimeout(typeNextChar, randomDelay);
+      } else {
+        // Typing complete, add completion effects
+        typewriterElem.classList.add('typing-complete');
+        playPixelSound('success');
+        
+        // Add replay button after delay
+        setTimeout(() => {
+          addReplayButton(typewriterElem);
+        }, 1500);
+      }
+    };
+    
+    // Small delay before starting
+    setTimeout(() => {
+      typeNextChar();
+    }, 500);
+    
+    // Apply glitch effect to a character
+    function applyGlitchEffect(charElement) {
+      charElement.classList.add('glitch');
+      
+      setTimeout(() => {
+        charElement.classList.remove('glitch');
+      }, 300);
+    }
+    
+    // Add replay button
+    function addReplayButton(container) {
+      const replayBtn = document.createElement('span');
+      replayBtn.className = 'typewriter-replay';
+      replayBtn.innerHTML = '⟲';
+      replayBtn.title = 'Replay animation';
+      
+      replayBtn.addEventListener('click', () => {
+        // Restart the animation
+        charSpans.forEach(span => {
+          span.style.opacity = '0';
+          span.style.animation = '';
+        });
+        wordSpans.forEach(span => {
+          span.style.opacity = '0';
+          span.classList.remove('word-complete');
+        });
+        
+        charIndex = 0;
+        setTimeout(typeNextChar, 300);
+        replayBtn.remove();
+        playPixelSound('start');
+      });
+      
+      // Insert after container
+      container.parentNode.insertBefore(replayBtn, container.nextSibling);
+    }
   }
 
   // Navigation
