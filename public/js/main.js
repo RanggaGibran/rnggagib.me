@@ -543,11 +543,28 @@ window.playPixelSound = function(type) {
   // Your sound playing code...
 };
 
+// Definisikan fungsi updateCoinCounter yang hilang
+function updateCoinCounter() {
+  const coinCounter = document.getElementById('coin-counter');
+  if (coinCounter) {
+    coinCounter.textContent = window.coinCount || 0;
+  }
+}
+
+// Modifikasi fungsi incrementCoins agar lebih handal
 window.incrementCoins = function() {
   window.coinCount = (window.coinCount || 0) + 1;
   localStorage.setItem('pixelPortfolioCoinCount', window.coinCount);
-  updateCoinCounter();
-  checkGameUnlock();
+  
+  // Safety check untuk updateCoinCounter
+  if (typeof updateCoinCounter === 'function') {
+    updateCoinCounter();
+  }
+  
+  // Jika ada fungsi checkGameUnlock, panggil
+  if (typeof checkGameUnlock === 'function') {
+    checkGameUnlock();
+  }
 };
 
 window.showAchievement = function(message) {

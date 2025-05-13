@@ -7,6 +7,9 @@ class PlatformGame {
     this.gameStarted = false;
     this.gameOver = false;
     this.levelComplete = false;
+    this.imagesLoaded = false;
+    this.imageLoadCount = 0;
+    this.totalImages = 5; // player, platform, coin, enemy, background
     
     // Game stats
     this.score = 0;
@@ -55,11 +58,29 @@ class PlatformGame {
   }
   
   loadSprites() {
-    this.sprites.player.src = 'images/pixel-art/player.png';
-    this.sprites.platform.src = 'images/pixel-art/platform.png';
-    this.sprites.coin.src = 'images/pixel-art/coin.png';
-    this.sprites.enemy.src = 'images/pixel-art/enemy.png';
-    this.sprites.background.src = 'images/pixel-art/game-bg.png';
+    // Menambahkan event listener onload untuk menghitung jumlah gambar yang sudah dimuat
+    const addLoadListener = (img, src) => {
+      img.onload = () => {
+        this.imageLoadCount++;
+        console.log(`Loaded image: ${src} (${this.imageLoadCount}/${this.totalImages})`);
+        if (this.imageLoadCount === this.totalImages) {
+          this.imagesLoaded = true;
+          console.log('All images loaded successfully');
+        }
+      };
+      
+      img.onerror = () => {
+        console.error(`Failed to load image: ${src}`);
+      };
+      
+      img.src = src;
+    };
+    
+    addLoadListener(this.sprites.player, 'images/pixel-art/player.png');
+    addLoadListener(this.sprites.platform, 'images/pixel-art/platform.png');
+    addLoadListener(this.sprites.coin, 'images/pixel-art/coin.png');
+    addLoadListener(this.sprites.enemy, 'images/pixel-art/enemy.png');
+    addLoadListener(this.sprites.background, 'images/pixel-art/game-bg.png');
   }
   
   setupEventListeners() {
@@ -80,6 +101,14 @@ class PlatformGame {
   
   startGame() {
     if (this.gameStarted) return;
+    
+    // Cek apakah semua gambar sudah dimuat
+    if (!this.imagesLoaded) {
+      console.log('Waiting for images to load...');
+      document.getElementById('start-game').textContent = 'LOADING...';
+      setTimeout(() => this.startGame(), 500);
+      return;
+    }
     
     this.gameStarted = true;
     this.gameOver = false;
@@ -161,17 +190,28 @@ class PlatformGame {
   gameLoop() {
     if (!this.gameStarted) return;
     
+    // Check if images are loaded
+    if (!this.imagesLoaded) {
+      console.warn('Trying to run game loop before images are loaded');
+      requestAnimationFrame(() => this.gameLoop());
+      return;
+    }
+    
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Draw background
-    this.ctx.drawImage(this.sprites.background, 0, 0, this.canvas.width, this.canvas.height);
-    
-    // Update
-    this.update();
-    
-    // Draw
-    this.draw();
+    try {
+      // Draw background
+      this.ctx.drawImage(this.sprites.background, 0, 0, this.canvas.width, this.canvas.height);
+      
+      // Update
+      this.update();
+      
+      // Draw
+      this.draw();
+    } catch (error) {
+      console.error('Error in game loop:', error);
+    }
     
     // Continue loop if game is active
     if (!this.gameOver && !this.levelComplete) {
