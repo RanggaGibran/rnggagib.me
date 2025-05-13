@@ -178,6 +178,10 @@ class LoadingScreen {
     // Ensure complete removal after transition
     setTimeout(() => {
       this.loadingScreen.style.display = 'none';
+      
+      // Dispatch custom event when loading is completely done
+      const loadingCompleteEvent = new CustomEvent('loadingComplete');
+      document.dispatchEvent(loadingCompleteEvent);
     }, 500);
   }
   

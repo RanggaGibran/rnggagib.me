@@ -112,10 +112,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
     
-    // Small delay before starting
-    setTimeout(() => {
-      typeNextChar();
-    }, 500);
+    // Function to start typewriter animation
+    const startTypewriter = () => {
+      // Small delay before starting
+      setTimeout(() => {
+        typeNextChar();
+      }, 500);
+    };
+    
+    // Wait for loading screen to complete OR start if loading already complete
+    if (document.getElementById('loading-screen').style.display === 'none') {
+      // Loading already complete, start typewriter directly
+      startTypewriter();
+    } else {
+      // Wait for loading to complete
+      document.addEventListener('loadingComplete', startTypewriter);
+    }
     
     // Apply glitch effect to a character
     function applyGlitchEffect(charElement) {
@@ -636,4 +648,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('#projects.active')) {
     setTimeout(animateProjectItems, 500);
   }
+
+  // Ensure typewriter starts even if loading takes too long
+  setTimeout(() => {
+    // Check if typewriter has started yet
+    const typewriterElem = document.querySelector('.typewriter');
+    if (typewriterElem && typewriterElem.querySelectorAll('.char[style*="opacity: 1"]').length === 0) {
+      // Typewriter hasn't started yet, force start it
+      document.dispatchEvent(new CustomEvent('loadingComplete'));
+    }
+  }, 8000); // 8 second safety timeout
 });
