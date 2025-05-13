@@ -102,29 +102,42 @@ function setupRouting() {
 async function navigateToSection(sectionId) {
   // Show transition effect
   if (window.loadingScreen) {
-    await window.loadingScreen.showTransition(400);
+    await window.loadingScreen.showTransition(300); // Turunkan ke 300ms
   }
   
   // Update URL without reload
   const newUrl = sectionId === 'home' ? '/' : `/${sectionId}`;
   history.pushState({ section: sectionId }, '', newUrl);
   
-  // Show the selected section
-  showSection(sectionId);
+  // Hide all sections first with opacity transition
+  const sections = document.querySelectorAll('.game-level');
+  sections.forEach(section => {
+    section.style.opacity = '0';
+    section.classList.remove('active');
+  });
+  
+  // Show the selected section with fade-in effect
+  setTimeout(() => {
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.classList.add('active');
+      targetSection.style.opacity = '1';
+      
+      // Initialize section-specific functionality
+      if (sectionId === 'projects') {
+        animateProjectItems();
+      } else if (sectionId === 'skills') {
+        window.initSkillBars();
+      }
+    }
+    
+    // Update active menu item
+    updateActiveMenuItem(sectionId);
+  }, 100); // Delay rendering untuk menghindari jank
   
   // Add sound effect
   if (window.playPixelSound) {
     window.playPixelSound('click');
-  }
-  
-  // Ensure music continues playing if not muted
-  if (window.musicPlayer && !window.musicPlayer.isMuted) {
-    window.musicPlayer.play();
-  }
-  
-  // Show achievement
-  if (window.showAchievement) {
-    window.showAchievement(`${sectionId.toUpperCase()} LEVEL UNLOCKED!`);
   }
 }
 

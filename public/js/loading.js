@@ -44,6 +44,25 @@ class LoadingScreen {
     // Actually count the images to load
     this.countAssetsAndLoad();
   }
+    preloadImages() {
+    const imagesToPreload = [
+      'images/pixel-art/player.png',
+      'images/pixel-art/avatar.png', 
+      'images/pixel-art/background.png',
+      'images/pixel-art/coin.png'
+    ];
+    
+    const promises = imagesToPreload.map(src => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(`Failed to load ${src}`);
+        img.src = src;
+      });
+    });
+    
+    return Promise.allSettled(promises);
+  }
   
   startLoading() {
     // Simulate loading progress if not counting real assets
@@ -60,6 +79,9 @@ class LoadingScreen {
         this.updateLoadingBar();
       }, 100);
     }
+        this.preloadImages().then(() => {
+      console.log('All critical images preloaded');
+    });
   }
   
   countAssetsAndLoad() {

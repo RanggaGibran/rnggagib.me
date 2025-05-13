@@ -1,3 +1,12 @@
+/* Tambahkan di bagian atas file untuk mengaktifkan hardware acceleration global */
+
+.game-container, .game-level, .loading-transition, .parallax-bg, .skill-bar, .project-item, .menu-items, .audio-player {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
 /* Parallax Background Layers */
 .parallax-bg {
   position: absolute;
@@ -392,23 +401,26 @@
   z-index: 1;
 }
 
+/* Update loading transitions */
+
 .loading-transition {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--dark);
+  background-color: transparent;
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s ease;
   pointer-events: none;
 }
 
 .loading-transition.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: all;
 }
 
 .loading-block {
@@ -417,22 +429,33 @@
   width: calc(100vw / 12);
   height: 100vh;
   transform: scaleY(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+  transform-origin: top;
 }
 
 .loading-transition.active .loading-block {
   transform: scaleY(1);
 }
 
-.loading-block:nth-child(1) { left: 0; transition-delay: 0.05s; }
-.loading-block:nth-child(2) { left: calc(100vw / 12); transition-delay: 0.1s; }
-.loading-block:nth-child(3) { left: calc(100vw / 12 * 2); transition-delay: 0.15s; }
-.loading-block:nth-child(4) { left: calc(100vw / 12 * 3); transition-delay: 0.2s; }
-.loading-block:nth-child(5) { left: calc(100vw / 12 * 4); transition-delay: 0.25s; }
-.loading-block:nth-child(6) { left: calc(100vw / 12 * 5); transition-delay: 0.3s; }
-.loading-block:nth-child(7) { left: calc(100vw / 12 * 6); transition-delay: 0.35s; }
-.loading-block:nth-child(8) { left: calc(100vw / 12 * 7); transition-delay: 0.4s; }
-.loading-block:nth-child(9) { left: calc(100vw / 12 * 8); transition-delay: 0.45s; }
-.loading-block:nth-child(10) { left: calc(100vw / 12 * 9); transition-delay: 0.5s; }
-.loading-block:nth-child(11) { left: calc(100vw / 12 * 10); transition-delay: 0.55s; }
-.loading-block:nth-child(12) { left: calc(100vw / 12 * 11); transition-delay: 0.6s; }
+/* Update untuk animasi yang lebih smooth */
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Hapus step functions yang membuat animasi terlihat patah-patah */
+.pixel-character {
+  animation: float 3s cubic-bezier(0.42, 0, 0.58, 1) infinite, 
+             blink 5s linear infinite;
+}
+
+/* Smoother transitions untuk theme switcher */
+.theme-option {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.theme-option:hover {
+  transform: scale(1.1);
+}
