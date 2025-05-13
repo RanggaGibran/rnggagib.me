@@ -78,6 +78,36 @@
   background-image: url('../images/pixel-art/project3.png');
 }
 
+.project-icon.java-project {
+  background-image: url('../images/pixel-art/java-project.png');
+  animation: pulse 2s infinite;
+}
+
+/* Alternative if you don't have a Java icon */
+
+.project-icon.java-project {
+  background-image: none;
+  background-color: #5382a1; /* Java blue */
+  position: relative;
+}
+
+.project-icon.java-project::after {
+  content: "J";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #f8981d; /* Java orange */
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
 /* Social Icons */
 .social-icon {
   width: 32px;
@@ -244,4 +274,17 @@
 .game-message {
   margin-bottom: 20px;
   text-align: center;
+}
+
+/* Project link button */
+.pixel-button.project-link {
+  display: inline-block;
+  font-size: 10px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.pixel-button.project-link:hover {
+  transform: translateY(-2px);
 }

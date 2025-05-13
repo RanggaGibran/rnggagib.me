@@ -600,4 +600,40 @@ document.addEventListener('DOMContentLoaded', () => {
     originalIncrementCoins.apply(this, arguments);
     checkGameUnlock();
   };
+
+  // Animate project items when they come into view
+  function animateProjectItems() {
+    const projectItems = document.querySelectorAll('.project-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    projectItems.forEach(item => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(20px)';
+      item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(item);
+    });
+  }
+
+  // Call the function when projects section becomes active
+  menuItems.forEach(item => {
+    if (item.getAttribute('data-section') === 'projects') {
+      item.addEventListener('click', () => {
+        setTimeout(animateProjectItems, 500);
+      });
+    }
+  });
+
+  // Also animate on page load if projects is the active section
+  if (document.querySelector('#projects.active')) {
+    setTimeout(animateProjectItems, 500);
+  }
 });
