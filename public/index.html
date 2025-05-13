@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/pixel-art.css">
   <link rel="stylesheet" href="css/decorative.css">
+  <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
 <body>
@@ -203,6 +204,40 @@
       </section>
     </main>
 
+    <!-- Tambahkan theme switcher sebelum bagian footer -->
+    <div class="theme-switcher">
+      <div class="theme-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="currentColor" d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2S2 6.48 2 12s4.48 10 10 10zm0-18c4.42 0 8 3.58 8 8s-3.58 8-8-8s-8-3.58-8-8s3.58-8 8-8z"></path>
+          <path fill="currentColor" d="M12 16a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path>
+        </svg>
+      </div>
+      <div class="theme-menu">
+        <div class="theme-option" data-theme="default" title="Default Theme">
+          <div class="theme-preview default"></div>
+          <span>Default</span>
+        </div>
+        <div class="theme-option" data-theme="night" title="Night Theme">
+          <div class="theme-preview night"></div>
+          <span>Night</span>
+        </div>
+        <div class="theme-option" data-theme="gameboy" title="Gameboy Theme">
+          <div class="theme-preview gameboy"></div>
+          <span>Gameboy</span>
+        </div>
+        <div class="theme-option" data-theme="nes" title="NES Theme">
+          <div class="theme-preview nes"></div>
+          <span>NES</span>
+        </div>
+        <div class="theme-option auto-night" data-auto="night">
+          <div class="auto-toggle">
+            <div class="auto-toggle-slider"></div>
+          </div>
+          <span>Auto Night</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Game controls/footer -->
     <footer class="game-controls">
       <div class="social-links">
@@ -217,5 +252,6 @@
   <script src="js/loading.js"></script>
   <script src="js/main.js"></script>
   <script src="js/platform-game.js"></script>
+  <script src="js/theme-switcher.js"></script>
 </body>
 </html>
