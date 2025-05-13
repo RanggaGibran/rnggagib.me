@@ -654,3 +654,44 @@ function initCharacterAttributes() {
     });
   });
 }
+
+// Certificate popup handler
+document.addEventListener('DOMContentLoaded', () => {
+  const certificateBadge = document.querySelector('.achievement-badge.certificate');
+  const certificatePopup = document.getElementById('certificate-popup');
+  const closeBtn = document.querySelector('.close-certificate');
+  
+  if (certificateBadge && certificatePopup) {
+    certificateBadge.addEventListener('click', () => {
+      certificatePopup.classList.add('active');
+      
+      // Add sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('achievement');
+      }
+    });
+    
+    closeBtn.addEventListener('click', () => {
+      certificatePopup.classList.remove('active');
+      
+      // Add sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('click');
+      }
+    });
+    
+    // Close when clicking outside
+    certificatePopup.addEventListener('click', (e) => {
+      if (e.target === certificatePopup) {
+        certificatePopup.classList.remove('active');
+      }
+    });
+    
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && certificatePopup.classList.contains('active')) {
+        certificatePopup.classList.remove('active');
+      }
+    });
+  }
+});

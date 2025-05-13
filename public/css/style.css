@@ -1265,3 +1265,115 @@ html {
     height: 120px;
   }
 }
+
+/* Certificate Badge */
+.badge-icon.certificate-python {
+  background-color: #3776AB; /* Python blue */
+  overflow: hidden;
+  position: relative;
+}
+
+.certificate-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: #FFD43B; /* Python yellow */
+  font-weight: bold;
+}
+
+.achievement-badge.certificate:hover {
+  animation: certificate-glow 1.5s infinite alternate;
+}
+
+@keyframes certificate-glow {
+  from { box-shadow: 0 0 5px rgba(65, 166, 246, 0.5); }
+  to { box-shadow: 0 0 15px rgba(65, 166, 246, 0.8); }
+}
+
+/* Certificate Popup Styles */
+.certificate-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.certificate-popup.active {
+  display: flex;
+}
+
+.certificate-popup-content {
+  background-color: var(--dark);
+  border: 4px solid var(--accent);
+  width: 80%;
+  max-width: 800px;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-shadow: 0 0 20px rgba(65, 166, 246, 0.5);
+}
+
+.certificate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: var(--primary);
+  border-bottom: 2px solid var(--accent);
+}
+
+.certificate-header h3 {
+  font-size: 14px;
+  color: var(--highlight);
+  margin: 0;
+}
+
+.close-certificate {
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--highlight);
+  transition: color 0.2s;
+}
+
+.close-certificate:hover {
+  color: var(--accent);
+}
+
+.certificate-body {
+  flex: 1;
+  overflow: hidden;
+}
+
+.certificate-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: white;
+}
+
+.certificate-footer {
+  padding: 10px;
+  text-align: center;
+  border-top: 2px solid var(--accent);
+}
+
+/* Mobile responsiveness for certificate */
+@media (max-width: 768px) {
+  .certificate-popup-content {
+    width: 95%;
+    height: 90%;
+  }
+  
+  .certificate-header h3 {
+    font-size: 12px;
+  }
+}
