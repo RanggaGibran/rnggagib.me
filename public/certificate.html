@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achievements | RNGGAGIB.ME</title>
+  
+  <!-- Favicon dari avatar.png -->
+  <link rel="icon" href="images/pixel-art/avatar.png" type="image/png">
+  <link rel="shortcut icon" href="images/pixel-art/avatar.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/pixel-art/avatar.png">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pixel-art.css">
+  <link rel="stylesheet" href="css/decorative.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+  <div data-include="includes/header.html"></div>
+
+  <div class="game-container">
+    <!-- Game-style navigation -->
+    <nav class="game-menu">
+      <div class="pixel-logo">RNGGAGIB.ME</div>
+      <div class="menu-toggle">≡</div>
+      <ul class="menu-items">
+        <li class="menu-item" data-page="index.html">HOME</li>
+        <li class="menu-item" data-page="projects.html">PROJECTS</li>
+        <li class="menu-item" data-page="skills.html">SKILLS</li>
+        <li class="menu-item" data-page="about.html">ABOUT</li>
+        <li class="menu-item" data-page="contact.html">CONTACT</li>
+        <li class="menu-item hidden-item" data-page="game.html">GAME</li>
+        <li class="menu-item active" data-page="certificate.html">ACHIEVEMENTS</li>
+      </ul>
+    </nav>
+
+    <main class="game-screen">
+      <section id="achievements" class="game-level active">
+        <h2 class="section-title">ACHIEVEMENTS & CERTIFICATES</h2>
+        
+        <div class="achievements-page">
+          <!-- Python Certificate -->
+          <div class="certificate-card">
+            <div class="certificate-header">
+              <h3>Codedex Python Certificate</h3>
+              <div class="certificate-badge">
+                <div class="badge-icon certificate-python">
+                  <span class="certificate-icon">Py</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="certificate-preview">
+              <img src="images/certificates/python-cert-preview.png" alt="Python Certificate Preview" 
+                   onclick="openCertificate('certificate/python-certificate.pdf')" class="cert-preview-img">
+              <div class="preview-overlay">
+                <span class="view-text">Click to View</span>
+              </div>
+            </div>
+            
+            <div class="certificate-info">
+              <p>Successfully completed the Python programming curriculum, demonstrating proficiency in Python fundamentals, data structures, and algorithms.</p>
+              <div class="certificate-meta">
+                <span class="issuer">Issued by: Codedex</span>
+                <span class="issue-date">Date: January 2024</span>
+              </div>
+              <div class="certificate-actions">
+                <button class="pixel-button" onclick="openCertificate('certificate/python-certificate.pdf')">VIEW</button>
+                <a href="certificate/python-certificate.pdf" download class="pixel-button">DOWNLOAD</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Placeholder for future certificates -->
+          <div class="certificate-card locked">
+            <div class="certificate-header">
+              <h3>Future Achievement</h3>
+              <div class="certificate-badge">
+                <div class="badge-icon mystery"></div>
+              </div>
+            </div>
+            
+            <div class="certificate-preview locked">
+              <div class="locked-overlay">
+                <span class="locked-text">Coming Soon</span>
+              </div>
+            </div>
+            
+            <div class="certificate-info">
+              <p>This achievement will be unlocked in future updates. Stay tuned!</p>
+              <div class="certificate-actions">
+                <button class="pixel-button disabled">LOCKED</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Certificate Viewer Modal -->
+        <div id="certificate-modal" class="certificate-modal">
+          <div class="certificate-modal-content">
+            <div class="certificate-modal-header">
+              <h3>Certificate Viewer</h3>
+              <span class="close-modal" onclick="closeCertificateModal()">&times;</span>
+            </div>
+            <div class="certificate-modal-body">
+              <iframe id="certificate-frame" src="" frameborder="0"></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Game controls/footer -->
+    <footer class="game-controls">
+      <div class="social-links">
+        <a href="https://github.com/RanggaGibran" class="social-link" target="_blank">
+          <i class="bi bi-github"></i>
+        </a>
+        <a href="https://linkedin.com/in/ranggagibran" class="social-link" target="_blank">
+          <i class="bi bi-linkedin"></i>
+        </a>
+        <a href="https://twitter.com/ranggagibran" class="social-link" target="_blank">
+          <i class="bi bi-twitter-x"></i>
+        </a>
+      </div>
+      <div class="copyright">© 2025 RNGGAGIB.ME · ALL RIGHTS RESERVED</div>
+    </footer>
+  </div>
+
+  <!-- Add JavaScript for certificate view functionality -->
+  <script>
+    function openCertificate(pdfPath) {
+      const modal = document.getElementById('certificate-modal');
+      const frame = document.getElementById('certificate-frame');
+      frame.src = pdfPath;
+      modal.classList.add('active');
+      
+      // Add sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('achievement');
+      }
+    }
+    
+    function closeCertificateModal() {
+      const modal = document.getElementById('certificate-modal');
+      const frame = document.getElementById('certificate-frame');
+      modal.classList.remove('active');
+      setTimeout(() => {
+        frame.src = "";
+      }, 300);
+      
+      // Add sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('click');
+      }
+    }
+    
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCertificateModal();
+      }
+    });
+    
+    // Close when clicking outside
+    document.getElementById('certificate-modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('certificate-modal')) {
+        closeCertificateModal();
+      }
+    });
+  </script>
+  
+  <!-- Include scripts -->
+  <script src="js/loading.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/theme-switcher.js"></script>
+  <script src="js/music-player.js"></script>
+</body>
+</html>
