@@ -30,6 +30,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 500);
   }
+  
+  // Mobile menu toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menuItems = document.querySelector('.menu-items');
+
+  if (menuToggle && menuItems) {
+    menuToggle.addEventListener('click', () => {
+      menuItems.classList.toggle('active');
+      
+      // Add sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('click');
+      }
+    });
+    
+    // Close menu when clicking on a menu item
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          menuItems.classList.remove('active');
+        }
+      });
+    });
+  }
 });
 
 // Handle URL routing dan navigation

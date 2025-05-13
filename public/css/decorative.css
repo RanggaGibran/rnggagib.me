@@ -248,6 +248,29 @@
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .loading-content {
+    width: 90%;
+  }
+  
+  .loading-title {
+    font-size: 18px;
+  }
+  
+  .loading-bar-container {
+    height: 25px;
+  }
+  
+  .loading-tip {
+    font-size: 10px;
+  }
+  
+  .loading-interact-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
 .loading-title {
   font-size: 24px;
   color: var(--highlight);

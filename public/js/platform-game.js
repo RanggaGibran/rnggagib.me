@@ -55,6 +55,14 @@ class PlatformGame {
     this.loadSprites();
     this.setupEventListeners();
     this.setupLevel();
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      this.resizeCanvas();
+    });
+    
+    // Initial resize
+    this.resizeCanvas();
   }
   
   loadSprites() {
@@ -486,6 +494,54 @@ class PlatformGame {
     
     document.querySelector('.game-container-platform').appendChild(gameOverScreen);
     gameOverScreen.style.display = 'flex';
+  }
+  
+  resizeCanvas() {
+    const container = document.querySelector('.game-container-platform');
+    if (!container) return;
+    
+    // Keep aspect ratio
+    const aspectRatio = 800 / 400; // Original size
+    const width = container.clientWidth;
+    const height = width / aspectRatio;
+    
+    this.canvas.width = width;
+    this.canvas.height = height;
+    
+    // Scale platform positions
+    const scaleX = width / 800;
+    const scaleY = height / 400;
+    
+    // Apply scale to game objects
+    this.platforms.forEach(platform => {
+      platform.x *= scaleX;
+      platform.y *= scaleY;
+      platform.width *= scaleX;
+      platform.height *= scaleY;
+    });
+    
+    this.coins.forEach(coin => {
+      coin.x *= scaleX;
+      coin.y *= scaleY;
+      coin.width *= scaleX;
+      coin.height *= scaleY;
+    });
+    
+    this.enemies.forEach(enemy => {
+      enemy.x *= scaleX;
+      enemy.y *= scaleY;
+      enemy.width *= scaleX;
+      enemy.height *= scaleY;
+    });
+    
+    // Scale player
+    this.player.x *= scaleX;
+    this.player.y *= scaleY;
+    this.player.width *= scaleX;
+    this.player.height *= scaleY;
+    
+    // Redraw
+    this.draw();
   }
 }
 
