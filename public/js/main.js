@@ -5,8 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Handle navigation clicks
   menuItems.forEach(item => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', async () => {
       const targetSection = item.getAttribute('data-section');
+      
+      // Show transition effect
+      if (window.loadingScreen) {
+        await window.loadingScreen.showTransition(400);
+      }
       
       // Hide all sections
       sections.forEach(section => {
@@ -27,7 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // CTA Button action
   const ctaButton = document.querySelector('.cta-button');
   if (ctaButton) {
-    ctaButton.addEventListener('click', () => {
+    ctaButton.addEventListener('click', async () => {
+      // Show transition effect
+      if (window.loadingScreen) {
+        await window.loadingScreen.showTransition(400);
+      }
+      
       // Hide all sections
       sections.forEach(section => {
         section.classList.remove('active');
