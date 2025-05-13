@@ -131,6 +131,24 @@
   font-weight: bold;
 }
 
+.project-icon.python-project {
+  background-image: none;
+  background-color: #3776AB; /* Python blue */
+  position: relative;
+}
+
+.project-icon.python-project::after {
+  content: "Py";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: #FFD43B; /* Python yellow */
+  font-weight: bold;
+  font-family: 'Press Start 2P', cursive;
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -316,4 +334,14 @@
 
 .pixel-button.project-link:hover {
   transform: translateY(-2px);
+}
+
+/* Better hover effects for project cards */
+.project-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
