@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
 <body>
+  <div data-include="includes/header.html"></div>
+
   <!-- Loading Screen -->
   <div class="loading-screen" id="loading-screen">
     <div class="loading-content">
@@ -88,7 +90,7 @@
           <div class="speech-bubble">
             <h1>Hi, I'm <span class="highlight">RNGGAGIB</span></h1>
             <p class="typewriter">I build awesome web experiences</p>
-            <div class="cta-button">PRESS START</div>
+            <div class="cta-button" data-target="projects.html">PRESS START</div>
           </div>
         </div>
       </section>
@@ -338,6 +340,8 @@
       <div class="copyright">© 2025 RNGGAGIB.ME · ALL RIGHTS RESERVED</div>
     </footer>
   </div>
+
+  <div data-include="includes/footer.html"></div>
 
   <script src="js/loading.js"></script>
   <script src="js/main.js"></script>

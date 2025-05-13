@@ -1,171 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Remove existing typewriter implementations
-  const typewriterElem = document.querySelector('.typewriter');
-  
-  if (typewriterElem) {
-    // Clear any existing animations
-    if (window.typewriterInterval) {
-      clearInterval(window.typewriterInterval);
-    }
-    
-    // Set up new enhanced typewriter
-    const text = "I build awesome web experiences";
-    typewriterElem.innerHTML = ''; // Clear existing content
-    
-    // Create the cursor element
-    const cursor = document.createElement('span');
-    cursor.className = 'typewriter-cursor';
-    cursor.innerHTML = '█';
-    
-    // Add the cursor
-    typewriterElem.appendChild(cursor);
-    
-    // Split text into words for word-level effects
-    const words = text.split(' ');
-    let charIndex = 0;
-    let wordIndex = 0;
-    let currentWord = '';
-    
-    // Add all words with spans but make them invisible
-    words.forEach((word, idx) => {
-      const wordContainer = document.createElement('span');
-      wordContainer.className = 'word';
-      wordContainer.style.opacity = '0';
-      wordContainer.style.position = 'relative';
-      
-      // Special styling for key words
-      if (word === 'awesome') {
-        wordContainer.classList.add('highlight-word');
-      }
-      
-      // Add each character of the word
-      word.split('').forEach(char => {
-        const charSpan = document.createElement('span');
-        charSpan.textContent = char;
-        charSpan.className = 'char';
-        charSpan.style.opacity = '0';
-        charSpan.style.position = 'relative';
-        wordContainer.appendChild(charSpan);
-      });
-      
-      // Add space after word (except last word)
-      if (idx < words.length - 1) {
-        const space = document.createElement('span');
-        space.innerHTML = '&nbsp;';
-        space.style.opacity = '0';
-        wordContainer.appendChild(space);
-      }
-      
-      // Insert before cursor
-      typewriterElem.insertBefore(wordContainer, cursor);
-    });
-    
-    // Get all character spans
-    const charSpans = typewriterElem.querySelectorAll('.char');
-    const wordSpans = typewriterElem.querySelectorAll('.word');
-    
-    // Typing animation function with variable speed
-    const typeNextChar = () => {
-      if (charIndex < charSpans.length) {
-        const currentChar = charSpans[charIndex];
-        currentChar.style.opacity = '1';
-        
-        // Add special effects randomly
-        if (Math.random() < 0.1) {
-          // Glitch effect on random chars
-          applyGlitchEffect(currentChar);
-        }
-        
-        // Rise up animation
-        currentChar.style.animation = 'char-rise 0.2s forwards';
-        
-        // Move to next character
-        charIndex++;
-        
-        // Make word visible when all its characters are typed
-        const parentWord = currentChar.parentNode;
-        const wordChars = parentWord.querySelectorAll('.char');
-        const allCharsVisible = Array.from(wordChars).every(char => char.style.opacity === '1');
-        
-        if (allCharsVisible) {
-          parentWord.style.opacity = '1';
-          const space = parentWord.querySelector('span:not(.char)');
-          if (space) space.style.opacity = '1';
-          
-          // Apply word completion effect
-          parentWord.classList.add('word-complete');
-          playPixelSound('click');
-        }
-        
-        // Variable speed typing
-        const randomDelay = 70 + Math.random() * 60;
-        setTimeout(typeNextChar, randomDelay);
-      } else {
-        // Typing complete, add completion effects
-        typewriterElem.classList.add('typing-complete');
-        playPixelSound('success');
-        
-        // Add replay button after delay
-        setTimeout(() => {
-          addReplayButton(typewriterElem);
-        }, 1500);
-      }
-    };
-    
-    // Function to start typewriter animation
-    const startTypewriter = () => {
-      // Small delay before starting
-      setTimeout(() => {
-        typeNextChar();
-      }, 500);
-    };
-    
-    // Wait for loading screen to complete OR start if loading already complete
-    if (document.getElementById('loading-screen').style.display === 'none') {
-      // Loading already complete, start typewriter directly
-      startTypewriter();
-    } else {
-      // Wait for loading to complete
-      document.addEventListener('loadingComplete', startTypewriter);
-    }
-    
-    // Apply glitch effect to a character
-    function applyGlitchEffect(charElement) {
-      charElement.classList.add('glitch');
-      
-      setTimeout(() => {
-        charElement.classList.remove('glitch');
-      }, 300);
-    }
-    
-    // Add replay button
-    function addReplayButton(container) {
-      const replayBtn = document.createElement('span');
-      replayBtn.className = 'typewriter-replay';
-      replayBtn.innerHTML = '⟲';
-      replayBtn.title = 'Replay animation';
-      
-      replayBtn.addEventListener('click', () => {
-        // Restart the animation
-        charSpans.forEach(span => {
-          span.style.opacity = '0';
-          span.style.animation = '';
-        });
-        wordSpans.forEach(span => {
-          span.style.opacity = '0';
-          span.classList.remove('word-complete');
-        });
-        
-        charIndex = 0;
-        setTimeout(typeNextChar, 300);
-        replayBtn.remove();
-        playPixelSound('start');
-      });
-      
-      // Insert after container
-      container.parentNode.insertBefore(replayBtn, container.nextSibling);
-    }
+  // Initialize typewriter only on homepage
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  if (currentPage === 'index.html') {
+    initializeTypewriter();
   }
+  
+  // Rest of your initialization code...
+  initializePixelSounds();
+  initializeCoins();
+  createStars();
 
   // Navigation
   const menuItems = document.querySelectorAll('.menu-item');
@@ -410,184 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(addCoins, 10000);
   
   // Add initial stars and coins
-  createStars();
   setTimeout(addCoins, 1000);
   loadCoins();
   
-  // Update sound effect function to add coin sounds
-  function playPixelSound(type) {
-    // Creating audio context
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    
-    const audioCtx = new AudioContext();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    
-    // Different sounds for different actions
-    switch(type) {
-      case 'click':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(380, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.1);
-        break;
-      case 'start':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(260, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(520, audioCtx.currentTime);
-        }, 100);
-        oscillator.stop(audioCtx.currentTime + 0.2);
-        break;
-      case 'success':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(380, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(520, audioCtx.currentTime);
-        }, 150);
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(660, audioCtx.currentTime);
-        }, 300);
-        oscillator.stop(audioCtx.currentTime + 0.4);
-        break;
-      case 'coin':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(780, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
-        }, 50);
-        oscillator.stop(audioCtx.currentTime + 0.1);
-        break;
-      case 'achievement':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(660, audioCtx.currentTime);
-        }, 100);
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
-        }, 200);
-        oscillator.stop(audioCtx.currentTime + 0.3);
-        break;
-      case 'jump':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(300, audioCtx.currentTime);
-        }, 50);
-        oscillator.stop(audioCtx.currentTime + 0.15);
-        break;
-      case 'damage':
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
-        }, 100);
-        oscillator.stop(audioCtx.currentTime + 0.2);
-        break;
-      case 'enemyDefeat':
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        oscillator.start();
-        setTimeout(() => {
-          oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
-        }, 50);
-        oscillator.stop(audioCtx.currentTime + 0.2);
-        break;
-    }
-  }
-  
-  // Add pixel trail effect to cursor
-  document.addEventListener('mousemove', (e) => {
-    // Only add a pixel every few moves to avoid too many elements
-    if (Math.random() > 0.9) {
-      const pixel = document.createElement('div');
-      pixel.className = 'cursor-pixel';
-      pixel.style.position = 'absolute';
-      pixel.style.width = '4px';
-      pixel.style.height = '4px';
-      pixel.style.backgroundColor = 'var(--accent)';
-      pixel.style.left = `${e.pageX}px`;
-      pixel.style.top = `${e.pageY}px`;
-      pixel.style.opacity = '0.8';
-      pixel.style.pointerEvents = 'none';
-      pixel.style.zIndex = '9999';
-      
-      document.body.appendChild(pixel);
-      
-      // Animate and remove the pixel
-      setTimeout(() => {
-        pixel.style.transition = 'all 0.5s';
-        pixel.style.opacity = '0';
-        pixel.style.transform = 'translateY(10px)';
-        
-        setTimeout(() => {
-          document.body.removeChild(pixel);
-        }, 500);
-      }, 100);
-    }
-  });
-  
-  // Check for Konami Code for fun easter egg
-  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-  let konamiIndex = 0;
-  
-  document.addEventListener('keydown', (e) => {
-    if (e.key === konamiCode[konamiIndex]) {
-      konamiIndex++;
-      if (konamiIndex === konamiCode.length) {
-        activateEasterEgg();
-        konamiIndex = 0;
-      }
-    } else {
-      konamiIndex = 0;
-    }
-  });
-  
-  function activateEasterEgg() {
-    showAchievement('KONAMI CODE ACTIVATED!');
-    
-    // Apply rainbow effect to the screen
-    document.body.classList.add('rainbow-mode');
-    
-    // Add extra coins
-    for (let i = 0; i < 30; i++) {
-      setTimeout(() => {
-        addCoins();
-      }, i * 100);
-    }
-    
-    // Remove rainbow mode after 5 seconds
-    setTimeout(() => {
-      document.body.classList.remove('rainbow-mode');
-    }, 5000);
-  }
-
-  // Expose incrementCoins function globally for game integration
-  window.incrementCoins = incrementCoins;
-  window.playPixelSound = playPixelSound;
-
-  // Make showAchievement available globally
-  window.showAchievement = showAchievement;
-
   // Check for coin count to unlock game section
   function checkGameUnlock() {
     const gameMenuItem = document.querySelector('.menu-item[data-section="game"]');
@@ -648,14 +316,201 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('#projects.active')) {
     setTimeout(animateProjectItems, 500);
   }
-
-  // Ensure typewriter starts even if loading takes too long
-  setTimeout(() => {
-    // Check if typewriter has started yet
-    const typewriterElem = document.querySelector('.typewriter');
-    if (typewriterElem && typewriterElem.querySelectorAll('.char[style*="opacity: 1"]').length === 0) {
-      // Typewriter hasn't started yet, force start it
-      document.dispatchEvent(new CustomEvent('loadingComplete'));
-    }
-  }, 8000); // 8 second safety timeout
 });
+
+// Typewriter initialization
+function initializeTypewriter() {
+  const typewriterElem = document.querySelector('.typewriter');
+  
+  if (typewriterElem) {
+    // Clear any existing animations
+    if (window.typewriterInterval) {
+      clearInterval(window.typewriterInterval);
+    }
+    
+    // Set up new enhanced typewriter
+    const text = "I build awesome web experiences";
+    typewriterElem.innerHTML = ''; // Clear existing content
+    
+    // Create the cursor element
+    const cursor = document.createElement('span');
+    cursor.className = 'typewriter-cursor';
+    cursor.innerHTML = '█';
+    
+    // Add the cursor
+    typewriterElem.appendChild(cursor);
+    
+    // Split text into words for word-level effects
+    const words = text.split(' ');
+    let charIndex = 0;
+    let wordIndex = 0;
+    let currentWord = '';
+    
+    // Add all words with spans but make them invisible
+    words.forEach((word, idx) => {
+      const wordContainer = document.createElement('span');
+      wordContainer.className = 'word';
+      wordContainer.style.opacity = '0';
+      wordContainer.style.position = 'relative';
+      
+      // Special styling for key words
+      if (word === 'awesome') {
+        wordContainer.classList.add('highlight-word');
+      }
+      
+      // Add each character of the word
+      word.split('').forEach(char => {
+        const charSpan = document.createElement('span');
+        charSpan.textContent = char;
+        charSpan.className = 'char';
+        charSpan.style.opacity = '0';
+        charSpan.style.position = 'relative';
+        wordContainer.appendChild(charSpan);
+      });
+      
+      // Add space after word (except last word)
+      if (idx < words.length - 1) {
+        const space = document.createElement('span');
+        space.innerHTML = '&nbsp;';
+        space.style.opacity = '0';
+        wordContainer.appendChild(space);
+      }
+      
+      // Insert before cursor
+      typewriterElem.insertBefore(wordContainer, cursor);
+    });
+    
+    // Get all character spans
+    const charSpans = typewriterElem.querySelectorAll('.char');
+    const wordSpans = typewriterElem.querySelectorAll('.word');
+    
+    // Typing animation function with variable speed
+    const typeNextChar = () => {
+      if (charIndex < charSpans.length) {
+        const currentChar = charSpans[charIndex];
+        currentChar.style.opacity = '1';
+        
+        // Add special effects randomly
+        if (Math.random() < 0.1) {
+          // Glitch effect on random chars
+          applyGlitchEffect(currentChar);
+        }
+        
+        // Rise up animation
+        currentChar.style.animation = 'char-rise 0.2s forwards';
+        
+        // Move to next character
+        charIndex++;
+        
+        // Make word visible when all its characters are typed
+        const parentWord = currentChar.parentNode;
+        const wordChars = parentWord.querySelectorAll('.char');
+        const allCharsVisible = Array.from(wordChars).every(char => char.style.opacity === '1');
+        
+        if (allCharsVisible) {
+          parentWord.style.opacity = '1';
+          const space = parentWord.querySelector('span:not(.char)');
+          if (space) space.style.opacity = '1';
+          
+          // Apply word completion effect
+          parentWord.classList.add('word-complete');
+          playPixelSound('click');
+        }
+        
+        // Variable speed typing
+        const randomDelay = 70 + Math.random() * 60;
+        setTimeout(typeNextChar, randomDelay);
+      } else {
+        // Typing complete, add completion effects
+        typewriterElem.classList.add('typing-complete');
+        playPixelSound('success');
+        
+        // Add replay button after delay
+        setTimeout(() => {
+          addReplayButton(typewriterElem);
+        }, 1500);
+      }
+    };
+    
+    // Function to start typewriter animation
+    const startTypewriter = () => {
+      // Small delay before starting
+      setTimeout(() => {
+        typeNextChar();
+      }, 500);
+    };
+    
+    // Wait for loading screen to complete
+    document.addEventListener('loadingComplete', startTypewriter);
+    
+    // Safety timeout
+    setTimeout(() => {
+      if (typewriterElem.querySelectorAll('.char[style*="opacity: 1"]').length === 0) {
+        document.dispatchEvent(new CustomEvent('loadingComplete'));
+      }
+    }, 8000);
+    
+    // Apply glitch effect to a character
+    function applyGlitchEffect(charElement) {
+      charElement.classList.add('glitch');
+      
+      setTimeout(() => {
+        charElement.classList.remove('glitch');
+      }, 300);
+    }
+    
+    // Add replay button
+    function addReplayButton(container) {
+      const replayBtn = document.createElement('span');
+      replayBtn.className = 'typewriter-replay';
+      replayBtn.innerHTML = '⟲';
+      replayBtn.title = 'Replay animation';
+      
+      replayBtn.addEventListener('click', () => {
+        // Restart the animation
+        charSpans.forEach(span => {
+          span.style.opacity = '0';
+          span.style.animation = '';
+        });
+        wordSpans.forEach(span => {
+          span.style.opacity = '0';
+          span.classList.remove('word-complete');
+        });
+        
+        charIndex = 0;
+        setTimeout(typeNextChar, 300);
+        replayBtn.remove();
+        playPixelSound('start');
+      });
+      
+      // Insert after container
+      container.parentNode.insertBefore(replayBtn, container.nextSibling);
+    }
+  }
+}
+
+// Initialize sound effects
+function initializePixelSounds() {
+  // Your sound initialization code...
+}
+
+// Initialize coins
+function initializeCoins() {
+  // Your coin initialization code...
+}
+
+// Global functions
+window.playPixelSound = function(type) {
+  // Your sound playing code...
+};
+
+window.incrementCoins = function() {
+  window.coinCount = (window.coinCount || 0) + 1;
+  localStorage.setItem('pixelPortfolioCoinCount', window.coinCount);
+  updateCoinCounter();
+  checkGameUnlock();
+};
+
+window.showAchievement = function(message) {
+  // Your achievement code...
+};

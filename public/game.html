@@ -1,0 +1,21 @@
+<div data-include="includes/header.html"></div>
+
+<section id="game" class="game-level active">
+  <h2 class="section-title">MINI PLATFORMER</h2>
+  
+  <div class="game-instructions">
+    <p>Use ARROW KEYS to move and jump. Collect all coins to win!</p>
+    <div class="game-stats">
+      <div class="game-score">SCORE: <span id="game-score">0</span></div>
+      <div class="game-lives">LIVES: <span id="game-lives">3</span></div>
+    </div>
+    <button class="pixel-button" id="start-game">START GAME</button>
+  </div>
+  
+  <div class="game-container-platform">
+    <canvas id="game-canvas" width="800" height="400"></canvas>
+  </div>
+</section>
+
+<div data-include="includes/footer.html"></div>
+<script src="js/platform-game.js"></script>

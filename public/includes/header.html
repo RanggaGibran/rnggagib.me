@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RNGGAGIB.ME | Pixel Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pixel-art.css">
+  <link rel="stylesheet" href="css/decorative.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <h1 class="loading-title">LOADING GAME...</h1>
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loading-bar">
+          <div class="loading-character"></div>
+          <div class="loading-percent">0%</div>
+        </div>
+      </div>
+      <div class="loading-tip">
+        <div class="loading-tip-content" id="loading-tip">Click on floating coins to collect them!</div>
+      </div>
+      <div class="loading-interact" id="loading-interact">
+        <p>GAME LOADED!</p>
+        <button class="loading-interact-button" id="loading-start">PRESS START</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Transition Effect -->
+  <div class="loading-transition" id="loading-transition">
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+  </div>
+
+  <!-- CRT & Scanlines Effects -->
+  <div class="scanlines"></div>
+  <div class="crt-flicker"></div>
+
+  <div class="game-container">
+    <!-- Game-style navigation -->
+    <nav class="game-menu">
+      <div class="pixel-logo">RNGGAGIB.ME</div>
+      <ul class="menu-items">
+        <li class="menu-item" data-page="index.html">HOME</li>
+        <li class="menu-item" data-page="projects.html">PROJECTS</li>
+        <li class="menu-item" data-page="skills.html">SKILLS</li>
+        <li class="menu-item" data-page="about.html">ABOUT</li>
+        <li class="menu-item" data-page="contact.html">CONTACT</li>
+        <li class="menu-item hidden-item" data-page="game.html">GAME</li>
+      </ul>
+    </nav>
+
+    <!-- Game screen sections -->
+    <main class="game-screen">
+      <!-- Background parallax elements -->
+      <div class="parallax-bg">
+        <div class="stars-container"></div>
+        <div class="bg-layer mountains"></div>
+        <div class="bg-layer trees"></div>
+        <div class="bg-layer grass"></div>
+        <div class="pixel-creature"></div>
+      </div>
+      
+      <!-- Floating clouds for background -->
+      <div class="cloud"></div>
+      <div class="cloud"></div>
+      <div class="cloud"></div>
