@@ -57,6 +57,35 @@
   background-image: url('../images/pixel-art/node.png');
 }
 
+/* Additional Programming Language Skill Icons */
+.skill-icon.java {
+  background-image: url('../images/pixel-art/java.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.skill-icon.python {
+  background-image: url('../images/pixel-art/python.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.skill-icon.cpp {
+  background-image: url('../images/pixel-art/cpp.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.skill-icon.rust {
+  background-image: url('../images/pixel-art/rust.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 /* Project Icons */
 .project-icon {
   width: 64px;
