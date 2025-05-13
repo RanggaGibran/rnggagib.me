@@ -174,6 +174,24 @@ function showSection(sectionId) {
   }
 }
 
+/**
+ * Update the active menu item based on the current section
+ * @param {string} sectionId - The ID of the current section
+ */
+function updateActiveMenuItem(sectionId) {
+  // Remove active class from all menu items
+  const menuItems = document.querySelectorAll('.menu-item');
+  menuItems.forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  // Add active class to the appropriate menu item
+  const activeItem = document.querySelector(`.menu-item[data-section="${sectionId}"]`);
+  if (activeItem) {
+    activeItem.classList.add('active');
+  }
+}
+
 // Animation for project items
 function animateProjectItems() {
   const projectItems = document.querySelectorAll('.project-item');
