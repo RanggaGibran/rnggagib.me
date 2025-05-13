@@ -1,0 +1,467 @@
+/* Base Styles & Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #181425;
+  color: #f5f5f5;
+  line-height: 1.6;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+}
+
+/* Pixel Art Color Palette */
+:root {
+  --primary: #29366f;
+  --secondary: #3b5dc9;
+  --accent: #41a6f6;
+  --highlight: #73eff7;
+  --pixel-green: #4bef5b;
+  --pixel-red: #ff5f5f;
+  --pixel-yellow: #f9e25a;
+  --dark: #181425;
+  --light: #f5f5f5;
+}
+
+/* Main Container Styling */
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVQIW2NkYGD4z8DAwMgAAP//AwCCFQMWUKzBLQAAAABJRU5ErkJggg==');
+  background-repeat: repeat;
+  background-size: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  border: 4px solid var(--primary);
+  border-radius: 4px;
+}
+
+/* Nav Menu Styling */
+.game-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  margin-bottom: 20px;
+  border-bottom: 4px solid var(--primary);
+}
+
+.pixel-logo {
+  font-size: 24px;
+  color: var(--highlight);
+  text-shadow: 3px 3px 0 var(--primary);
+  position: relative;
+}
+
+.menu-items {
+  display: flex;
+  list-style-type: none;
+  gap: 20px;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+  position: relative;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.menu-item:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.menu-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 4px;
+  background-color: var(--accent);
+  transition: width 0.3s;
+}
+
+.menu-item:hover::after {
+  width: 100%;
+}
+
+/* Game Screen */
+.game-screen {
+  flex: 1;
+  border: 4px solid var(--primary);
+  background-color: var(--dark);
+  border-radius: 4px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-level {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  padding: 20px;
+  min-height: 500px;
+  width: 100%;
+}
+
+.game-level.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Home Section */
+.pixel-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.pixel-character {
+  width: 128px;
+  height: 128px;
+  background-color: var(--secondary);
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.speech-bubble {
+  max-width: 500px;
+  padding: 20px;
+  border: 4px solid var(--secondary);
+  position: relative;
+  background-color: var(--dark);
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent var(--secondary) transparent transparent;
+}
+
+.speech-bubble h1 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.highlight {
+  color: var(--accent);
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid var(--accent);
+  width: 0;
+  animation: typing 3.5s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--accent) }
+}
+
+.cta-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--accent);
+  color: var(--dark);
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 3px 3px 0 var(--primary);
+  border: none;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 0 var(--primary);
+}
+
+/* Section Titles */
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 28px;
+  color: var(--highlight);
+  text-shadow: 3px 3px 0 var(--primary);
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 4px;
+  background-color: var(--accent);
+}
+
+/* Projects Section */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.project-item {
+  border: 4px solid var(--secondary);
+  padding: 20px;
+  background-color: rgba(41, 54, 111, 0.3);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.project-icon {
+  width: 60px;
+  height: 60px;
+  background-color: var(--accent);
+  margin-bottom: 15px;
+}
+
+.project-item h3 {
+  margin-bottom: 10px;
+  color: var(--highlight);
+}
+
+.project-tech {
+  margin-top: 15px;
+  font-size: 12px;
+  color: var(--pixel-yellow);
+}
+
+/* Skills Section */
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.skill-item {
+  text-align: center;
+}
+
+.skill-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 15px;
+  background-color: var(--accent);
+}
+
+.skill-name {
+  margin-bottom: 10px;
+}
+
+.skill-bar {
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.skill-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: var(--pixel-green);
+  width: attr(data-level);
+  animation: fillBar 1.5s ease-out forwards;
+}
+
+@keyframes fillBar {
+  from { width: 0; }
+  to { width: var(--width); }
+}
+
+/* About Section */
+.character-stats {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.pixel-avatar {
+  width: 150px;
+  height: 150px;
+  background-color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.stats-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.stats-info p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.character-bio {
+  margin-top: 20px;
+  padding: 15px;
+  border: 2px solid var(--secondary);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* Contact Section */
+.dialog-box {
+  max-width: 600px;
+  margin: 40px auto 0;
+  border: 4px solid var(--secondary);
+  padding: 25px;
+  background-color: rgba(41, 54, 111, 0.3);
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--highlight);
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--dark);
+  border: 2px solid var(--secondary);
+  font-family: 'Press Start 2P', cursive;
+  color: var(--light);
+  font-size: 12px;
+}
+
+.form-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.pixel-button {
+  padding: 10px 20px;
+  background-color: var(--accent);
+  color: var(--dark);
+  border: none;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  box-shadow: 3px 3px 0 var(--primary);
+}
+
+.pixel-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 0 var(--primary);
+}
+
+/* Footer */
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 15px 0;
+  border-top: 4px solid var(--primary);
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icon {
+  width: 30px;
+  height: 30px;
+  display: block;
+  background-color: var(--accent);
+  transition: transform 0.3s;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+}
+
+.copyright {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .game-menu {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .menu-items {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .pixel-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .speech-bubble::before {
+    display: none;
+  }
+  
+  .game-controls {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .character-stats {
+    flex-direction: column;
+    text-align: center;
+  }
+}

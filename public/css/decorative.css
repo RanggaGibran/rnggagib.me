@@ -1,0 +1,227 @@
+/* Parallax Background Layers */
+.parallax-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  image-rendering: pixelated;
+}
+
+.mountains {
+  background-image: url('../images/pixel-art/mountains.png');
+  background-size: auto 120px;
+  bottom: 0;
+  animation: parallax-slow 60s linear infinite;
+  opacity: 0.6;
+}
+
+.trees {
+  background-image: url('../images/pixel-art/trees.png');
+  background-size: auto 80px;
+  bottom: 0;
+  animation: parallax-medium 30s linear infinite;
+  opacity: 0.7;
+}
+
+.grass {
+  background-image: url('../images/pixel-art/grass.png');
+  background-size: auto 40px;
+  bottom: 0;
+  animation: parallax-fast 15s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes parallax-slow {
+  from { background-position: 0 bottom; }
+  to { background-position: 1000px bottom; }
+}
+
+@keyframes parallax-medium {
+  from { background-position: 0 bottom; }
+  to { background-position: -1000px bottom; }
+}
+
+@keyframes parallax-fast {
+  from { background-position: 0 bottom; }
+  to { background-position: 500px bottom; }
+}
+
+/* Interactive Elements */
+.pixel-creature {
+  width: 32px;
+  height: 32px;
+  background-image: url('../images/pixel-art/creature.png');
+  background-size: 128px 32px; /* 4 frames */
+  position: absolute;
+  bottom: 20px;
+  image-rendering: pixelated;
+  animation: creature-walk 0.5s steps(4) infinite, creature-move 15s linear infinite;
+  z-index: 2;
+}
+
+@keyframes creature-walk {
+  from { background-position: 0 0; }
+  to { background-position: -128px 0; } 
+}
+
+@keyframes creature-move {
+  from { left: -50px; }
+  to { left: 100%; }
+}
+
+/* Stars */
+.stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: white;
+  opacity: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 3px 1px var(--highlight);
+  animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .parallax-bg {
+    display: none;
+  }
+}
+
+/* Game achievements notification */
+.achievement {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background-color: rgba(41, 54, 111, 0.9);
+  border: 3px solid var(--accent);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+  z-index: 9999;
+  animation: achieve-pop 4s ease-in-out forwards;
+  box-shadow: 0 0 15px rgba(65, 166, 246, 0.5);
+}
+
+.achievement-icon {
+  width: 32px;
+  height: 32px;
+  background-color: var(--accent);
+  background-image: url('../images/pixel-art/trophy.png');
+  background-size: contain;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+@keyframes achieve-pop {
+  0% { transform: translateX(-50%) scale(0); }
+  15% { transform: translateX(-50%) scale(1.1); }
+  20% { transform: translateX(-50%) scale(1); }
+  80% { transform: translateX(-50%) scale(1); opacity: 1; }
+  100% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+}
+
+/* Scanlines effect */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 0.5px,
+    transparent 1px
+  );
+  z-index: 9998;
+  opacity: 0.3;
+}
+
+/* Flicker effect */
+.crt-flicker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.02);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9997;
+  animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0; }
+  1% { opacity: 0.2; }
+  2% { opacity: 0; }
+  67% { opacity: 0; }
+  68% { opacity: 0.3; }
+  69% { opacity: 0; }
+  70% { opacity: 0; }
+  71% { opacity: 0.2; }
+  72% { opacity: 0; }
+}
+
+/* Rainbow Mode */
+.rainbow-mode {
+  animation: rainbow-bg 2s linear infinite;
+}
+
+@keyframes rainbow-bg {
+  0% { background-color: #ff0000; }
+  17% { background-color: #ff8800; }
+  33% { background-color: #ffff00; }
+  50% { background-color: #00ff00; }
+  67% { background-color: #0000ff; }
+  83% { background-color: #8800ff; }
+  100% { background-color: #ff0000; }
+}
+
+.rainbow-mode .game-container {
+  animation: rainbow-border 1s linear infinite;
+}
+
+@keyframes rainbow-border {
+  0% { border-color: #ff0000; }
+  17% { border-color: #ff8800; }
+  33% { border-color: #ffff00; }
+  50% { border-color: #00ff00; }
+  67% { border-color: #0000ff; }
+  83% { border-color: #8800ff; }
+  100% { border-color: #ff0000; }
+}

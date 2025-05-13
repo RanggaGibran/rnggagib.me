@@ -1,0 +1,247 @@
+/* Pixel Art CSS */
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Character Sprite */
+.pixel-character {
+  width: 128px;
+  height: 128px;
+  background-color: transparent;
+  background-image: url('../images/pixel-art/character.png');
+  background-size: 100%;
+  image-rendering: pixelated;
+  position: relative;
+  animation: float 3s ease-in-out infinite, blink 5s infinite;
+}
+
+@keyframes blink {
+  0%, 97%, 100% { background-position: 0 0; }
+  98%, 99% { background-position: 0 -128px; }
+}
+
+/* Avatar */
+.pixel-avatar {
+  width: 150px;
+  height: 150px;
+  background-color: transparent;
+  background-image: url('../images/pixel-art/avatar.png');
+  background-size: 100%;
+  image-rendering: pixelated;
+}
+
+/* Skill Icons */
+.skill-icon {
+  width: 64px;
+  height: 64px;
+  background-size: 100%;
+  image-rendering: pixelated;
+  margin: 0 auto 15px;
+}
+
+.skill-icon.html {
+  background-image: url('../images/pixel-art/html.png');
+}
+
+.skill-icon.css {
+  background-image: url('../images/pixel-art/css.png');
+}
+
+.skill-icon.js {
+  background-image: url('../images/pixel-art/js.png');
+}
+
+.skill-icon.node {
+  background-image: url('../images/pixel-art/node.png');
+}
+
+/* Project Icons */
+.project-icon {
+  width: 64px;
+  height: 64px;
+  background-size: 100%;
+  image-rendering: pixelated;
+  margin-bottom: 15px;
+}
+
+.project-icon:nth-child(1) {
+  background-image: url('../images/pixel-art/project1.png');
+}
+
+.project-icon:nth-of-type(2) {
+  background-image: url('../images/pixel-art/project2.png');
+}
+
+.project-icon:nth-of-type(3) {
+  background-image: url('../images/pixel-art/project3.png');
+}
+
+/* Social Icons */
+.social-icon {
+  width: 32px;
+  height: 32px;
+  background-size: 100%;
+  image-rendering: pixelated;
+}
+
+.social-icon.github {
+  background-image: url('../images/pixel-art/github.png');
+}
+
+.social-icon.linkedin {
+  background-image: url('../images/pixel-art/linkedin.png');
+}
+
+.social-icon.twitter {
+  background-image: url('../images/pixel-art/twitter.png');
+}
+
+/* Game elements */
+.game-coin {
+  width: 24px;
+  height: 24px;
+  background-image: url('../images/pixel-art/coin.png');
+  background-size: 100%;
+  image-rendering: pixelated;
+  animation: spin 1s steps(8) infinite;
+  position: absolute;
+}
+
+@keyframes spin {
+  from { background-position: 0 0; }
+  to { background-position: -192px 0; } /* 8 frames x 24px width */
+}
+
+/* Background elements */
+.cloud {
+  width: 64px;
+  height: 32px;
+  background-image: url('../images/pixel-art/cloud.png');
+  background-size: 100%;
+  position: absolute;
+  opacity: 0.6;
+  image-rendering: pixelated;
+  animation: float-cloud 20s linear infinite;
+  z-index: 1;
+}
+
+.cloud:nth-child(2) {
+  top: 15%;
+  animation-duration: 30s;
+  animation-delay: 5s;
+  width: 96px;
+  height: 48px;
+}
+
+.cloud:nth-child(3) {
+  top: 40%;
+  animation-duration: 25s;
+  animation-delay: 10s;
+  width: 80px;
+  height: 40px;
+}
+
+@keyframes float-cloud {
+  from { left: -100px; }
+  to { left: 100%; }
+}
+
+/* Game Platform Styling */
+.hidden-item {
+  position: relative;
+  opacity: 0.5;
+}
+
+.hidden-item:hover::after {
+  content: "UNLOCKED AT 25 COINS";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  white-space: nowrap;
+  color: var(--pixel-yellow);
+}
+
+.game-container-platform {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+}
+
+#game-canvas {
+  border: 4px solid var(--secondary);
+  background-color: var(--dark);
+  image-rendering: pixelated;
+  max-width: 100%;
+}
+
+.game-instructions {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 15px 0;
+}
+
+.game-score, .game-lives {
+  font-size: 14px;
+  color: var(--highlight);
+}
+
+.game-character {
+  width: 32px;
+  height: 32px;
+  background-image: url('../images/pixel-art/player.png');
+  background-size: 128px 32px; /* 4 frames */
+  position: absolute;
+  image-rendering: pixelated;
+}
+
+.game-platform {
+  background-image: url('../images/pixel-art/platform.png');
+  background-size: 100% 100%;
+  position: absolute;
+  image-rendering: pixelated;
+}
+
+/* Game UI */
+.game-over-screen,
+.level-complete-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(24, 20, 37, 0.8);
+  z-index: 10;
+  display: none;
+}
+
+.game-over-screen h3,
+.level-complete-screen h3 {
+  font-size: 24px;
+  color: var(--pixel-red);
+  margin-bottom: 20px;
+}
+
+.level-complete-screen h3 {
+  color: var(--pixel-green);
+}
+
+.game-message {
+  margin-bottom: 20px;
+  text-align: center;
+}

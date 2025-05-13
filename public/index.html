@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RNGGAGIB.ME | Pixel Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pixel-art.css">
+  <link rel="stylesheet" href="css/decorative.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+</head>
+<body>
+  <!-- CRT & Scanlines Effects -->
+  <div class="scanlines"></div>
+  <div class="crt-flicker"></div>
+
+  <div class="game-container">
+    <!-- Game-style navigation -->
+    <nav class="game-menu">
+      <div class="pixel-logo">RNGGAGIB.ME</div>
+      <ul class="menu-items">
+        <li class="menu-item" data-section="home">HOME</li>
+        <li class="menu-item" data-section="projects">PROJECTS</li>
+        <li class="menu-item" data-section="skills">SKILLS</li>
+        <li class="menu-item" data-section="about">ABOUT</li>
+        <li class="menu-item" data-section="contact">CONTACT</li>
+        <li class="menu-item hidden-item" data-section="game">GAME</li>
+      </ul>
+    </nav>
+
+    <!-- Game screen sections -->
+    <main class="game-screen">
+      <!-- Background paralax elements -->
+      <div class="parallax-bg">
+        <div class="stars-container"></div>
+        <div class="bg-layer mountains"></div>
+        <div class="bg-layer trees"></div>
+        <div class="bg-layer grass"></div>
+        <div class="pixel-creature"></div>
+      </div>
+      
+      <!-- Floating clouds for background -->
+      <div class="cloud"></div>
+      <div class="cloud"></div>
+      <div class="cloud"></div>
+      
+      <!-- Home section with pixel character -->
+      <section id="home" class="game-level active">
+        <div class="pixel-hero">
+          <div class="pixel-character"></div>
+          <div class="speech-bubble">
+            <h1>Hi, I'm <span class="highlight">RNGGAGIB</span></h1>
+            <p class="typewriter">I build awesome web experiences</p>
+            <div class="cta-button">PRESS START</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects section styled like game levels -->
+      <section id="projects" class="game-level">
+        <h2 class="section-title">MY QUESTS</h2>
+        <div class="project-grid">
+          <!-- Project items will be styled like game items -->
+          <div class="project-item">
+            <div class="project-icon"></div>
+            <h3>Project 1</h3>
+            <p>A short description of this amazing project</p>
+            <div class="project-tech">HTML / CSS / JS</div>
+          </div>
+          <div class="project-item">
+            <div class="project-icon"></div>
+            <h3>Project 2</h3>
+            <p>A short description of this amazing project</p>
+            <div class="project-tech">Node.js / Express</div>
+          </div>
+          <div class="project-item">
+            <div class="project-icon"></div>
+            <h3>Project 3</h3>
+            <p>A short description of this amazing project</p>
+            <div class="project-tech">React / Firebase</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills section like power-ups -->
+      <section id="skills" class="game-level">
+        <h2 class="section-title">POWER UPS</h2>
+        <div class="skills-container">
+          <div class="skill-item">
+            <div class="skill-icon html"></div>
+            <div class="skill-name">HTML</div>
+            <div class="skill-bar" data-level="90"></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon css"></div>
+            <div class="skill-name">CSS</div>
+            <div class="skill-bar" data-level="85"></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon js"></div>
+            <div class="skill-name">JavaScript</div>
+            <div class="skill-bar" data-level="80"></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon node"></div>
+            <div class="skill-name">Node.js</div>
+            <div class="skill-bar" data-level="75"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About section like character stats -->
+      <section id="about" class="game-level">
+        <h2 class="section-title">PLAYER INFO</h2>
+        <div class="character-stats">
+          <div class="pixel-avatar"></div>
+          <div class="stats-info">
+            <p>NAME: RNGGAGIB</p>
+            <p>CLASS: WEB DEVELOPER</p>
+            <p>LEVEL: INTERMEDIATE</p>
+            <p>LOCATION: YOUR CITY</p>
+            <p>QUEST: BUILDING AMAZING WEB EXPERIENCES</p>
+            <div class="character-bio">
+              <p>A passionate web developer who loves creating unique digital experiences. With a background in design and programming, I bring creativity and technical skills to every project.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact section like dialog box -->
+      <section id="contact" class="game-level">
+        <h2 class="section-title">SEND MESSAGE</h2>
+        <div class="dialog-box">
+          <form id="contact-form">
+            <div class="form-field">
+              <label for="name">NAME:</label>
+              <input type="text" id="name" required>
+            </div>
+            <div class="form-field">
+              <label for="email">EMAIL:</label>
+              <input type="email" id="email" required>
+            </div>
+            <div class="form-field">
+              <label for="message">MESSAGE:</label>
+              <textarea id="message" required></textarea>
+            </div>
+            <button type="submit" class="pixel-button">SEND</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="game" class="game-level">
+        <h2 class="section-title">MINI PLATFORMER</h2>
+        
+        <div class="game-instructions">
+          <p>Use ARROW KEYS to move and jump. Collect all coins to win!</p>
+          <div class="game-stats">
+            <div class="game-score">SCORE: <span id="game-score">0</span></div>
+            <div class="game-lives">LIVES: <span id="game-lives">3</span></div>
+          </div>
+          <button class="pixel-button" id="start-game">START GAME</button>
+        </div>
+        
+        <div class="game-container-platform">
+          <canvas id="game-canvas" width="800" height="400"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <!-- Game controls/footer -->
+    <footer class="game-controls">
+      <div class="social-links">
+        <a href="https://github.com/yourusername" class="social-icon github" target="_blank"></a>
+        <a href="https://linkedin.com/in/yourusername" class="social-icon linkedin" target="_blank"></a>
+        <a href="https://twitter.com/yourusername" class="social-icon twitter" target="_blank"></a>
+      </div>
+      <div class="copyright">© 2025 RNGGAGIB.ME · ALL RIGHTS RESERVED</div>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/platform-game.js"></script>
+</body>
+</html>
