@@ -136,62 +136,37 @@ class ThemeSwitcher {
       document.body.appendChild(container);
     }
     
-    // Clear previous animation
+    // Force cleanup of any existing animation first
     container.innerHTML = '';
+    container.classList.remove('active');
     
-    // Create fewer pixels - reduce density by 2x
-    const pixelSize = 20; // Increased from 10 to 20
-    const cols = Math.ceil(window.innerWidth / pixelSize);
-    const rows = Math.ceil(window.innerHeight / pixelSize);
-    const maxPixels = 300; // Limit maximum number of pixels
+    // Use CSS-based animation instead of creating many DOM elements
+    const overlay = document.createElement('div');
+    overlay.className = 'theme-change-overlay';
+    container.appendChild(overlay);
     
-    let pixelCount = 0;
-    
-    for (let i = 0; i < cols && pixelCount < maxPixels; i += 2) {
-      for (let j = 0; j < rows && pixelCount < maxPixels; j += 2) {
-        const pixel = document.createElement('div');
-        pixel.className = 'theme-pixel';
-        pixel.style.left = `${i * pixelSize}px`;
-        pixel.style.top = `${j * pixelSize}px`;
-        pixel.style.opacity = '0';
-        
-        // Random opacity timing for pixel-dissolve effect
-        const delay = Math.random() * 0.3; // Reduced from 0.5 to 0.3
-        setTimeout(() => {
-          pixel.style.opacity = '1';
-          setTimeout(() => {
-            pixel.style.opacity = '0';
-            // Remove the pixel element after transition
-            setTimeout(() => {
-              if (pixel.parentNode === container) {
-                container.removeChild(pixel);
-              }
-            }, 300);
-          }, 250); // Reduced from 300 to 250
-        }, delay * 1000);
-        
-        container.appendChild(pixel);
-        pixelCount++;
-      }
-    }
-    
-    // Show and then hide container with cleanup
-    container.classList.add('active');
-    setTimeout(() => {
-      container.classList.remove('active');
-      // Force cleanup after animation
+    // Show animation
+    requestAnimationFrame(() => {
+      container.classList.add('active');
+      
+      // Hide and clean up
       setTimeout(() => {
-        container.innerHTML = '';
-      }, 300);
-    }, 600); // Reduced from 800 to 600
+        container.classList.remove('active');
+        setTimeout(() => {
+          if (container && document.body.contains(container)) {
+            container.innerHTML = '';
+          }
+        }, 500);
+      }, 600);
+    });
     
-    // Safety cleanup after 3 seconds no matter what
+    // Safety cleanup
     setTimeout(() => {
       if (container && document.body.contains(container)) {
         container.innerHTML = '';
         container.classList.remove('active');
       }
-    }, 3000);
+    }, 2000);
   }
   
   updateActiveOption() {
