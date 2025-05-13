@@ -54,6 +54,30 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // Tambahkan event listeners untuk menu item dengan data-page
+  document.querySelectorAll('.menu-item[data-page]').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.getAttribute('data-page');
+      
+      // Play sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('click');
+      }
+      
+      // Navigate to the page
+      if (page) {
+        // Add transition effect if available
+        if (window.loadingScreen && window.loadingScreen.showTransition) {
+          window.loadingScreen.showTransition(300).then(() => {
+            window.location.href = page;
+          });
+        } else {
+          window.location.href = page;
+        }
+      }
+    });
+  });
 });
 
 // Handle URL routing dan navigation
