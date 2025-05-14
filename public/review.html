@@ -48,27 +48,30 @@
         <h2 class="section-title">GUESTBOOK & REVIEWS</h2>
         
         <div class="reviews-container">
-          <!-- Discord Login Section -->
-          <div class="discord-login-section" id="discord-login-section">
-            <p class="pixel-text">Sign in with Discord to leave a review</p>
-            <button id="discord-login" class="pixel-button discord-button">
-              <i class="bi bi-discord"></i> LOGIN WITH DISCORD
-            </button>
-          </div>
-
-          <!-- Review Form (will be shown after login) -->
-          <div class="review-form-container hidden" id="review-form-container">
-            <div class="user-profile">
-              <img id="user-avatar" src="images/pixel-art/avatar.png" alt="User Avatar" class="user-avatar">
-              <div class="user-info">
-                <p id="username">Loading...</p>
-                <small id="user-tag">Loading...</small>
-              </div>
+          <!-- Reviews List -->
+          <div class="reviews-grid" id="reviews-list">
+            <div class="review-item loading">
+              <div class="loading-text">Loading reviews...</div>
             </div>
-            
-            <form id="review-form">
+          </div>
+          
+          <!-- Simpler Review Form -->
+          <div class="review-form-wrapper pixel-card">
+            <h3 class="form-title">Share Your Feedback</h3>
+            <form id="review-form" class="pixel-form">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="reviewer-name">Your Name:</label>
+                  <input type="text" id="reviewer-name" class="pixel-input" maxlength="40" required>
+                </div>
+                <div class="form-field">
+                  <label for="reviewer-role">Role/Company (Optional):</label>
+                  <input type="text" id="reviewer-role" class="pixel-input" maxlength="40">
+                </div>
+              </div>
+              
               <div class="form-field">
-                <label for="rating">RATING:</label>
+                <label for="rating">Rating:</label>
                 <div class="pixel-rating">
                   <span class="pixel-star" data-value="1">★</span>
                   <span class="pixel-star" data-value="2">★</span>
@@ -80,22 +83,13 @@
               </div>
               
               <div class="form-field">
-                <label for="review-message">MESSAGE:</label>
-                <textarea id="review-message" maxlength="500" placeholder="Share your thoughts about this portfolio..."></textarea>
+                <label for="review-message">Your Review:</label>
+                <textarea id="review-message" class="pixel-textarea" maxlength="500" placeholder="Share your thoughts about this portfolio..."></textarea>
                 <div class="char-counter"><span id="char-count">0</span>/500</div>
               </div>
               
-              <button type="submit" class="pixel-button submit-review">SUBMIT REVIEW</button>
-              <button type="button" class="pixel-button logout-button" id="discord-logout">LOGOUT</button>
+              <button type="submit" class="pixel-button submit-review" id="submit-review">SUBMIT REVIEW</button>
             </form>
-          </div>
-          
-          <!-- Reviews List -->
-          <h3 class="pixel-subtitle">VISITOR REVIEWS</h3>
-          <div class="reviews-list" id="reviews-list">
-            <div class="review-item loading">
-              <div class="loading-text">Loading reviews...</div>
-            </div>
           </div>
         </div>
       </section>
@@ -166,12 +160,10 @@
     </div>
   </div>
 
-  <!-- Discord Auth & Reviews JS -->
-  <script src="js/reviews.js"></script>
-
   <!-- Include scripts -->
   <script src="js/theme-switcher.js"></script>
   <script src="js/music-player.js"></script>
+  <script src="js/reviews.js"></script>
   
   <!-- Audio player hover effect -->
   <script>

@@ -1,65 +1,36 @@
-// Reviews and Discord Authentication System
+// Human-like Review System
 
 class ReviewSystem {
   constructor() {
-    this.clientId = '1333630246737412147'; // Ganti dengan Discord Client ID Anda
-    this.redirectUri = encodeURIComponent('http://rnggagib.me:3000/auth/discord/callback');
-    this.apiEndpoint = '/api/reviews';
-    this.user = null;
-    
     // DOM elements
-    this.loginSection = document.getElementById('discord-login-section');
-    this.reviewForm = document.getElementById('review-form-container');
     this.reviewsList = document.getElementById('reviews-list');
-    this.loginButton = document.getElementById('discord-login');
-    this.logoutButton = document.getElementById('discord-logout');
+    this.reviewForm = document.getElementById('review-form');
+    this.nameInput = document.getElementById('reviewer-name');
+    this.roleInput = document.getElementById('reviewer-role');
+    this.messageInput = document.getElementById('review-message');
     this.ratingStars = document.querySelectorAll('.pixel-star');
     this.ratingInput = document.getElementById('rating');
-    this.reviewMessage = document.getElementById('review-message');
     this.charCount = document.getElementById('char-count');
+    this.submitButton = document.getElementById('submit-review');
     
+    // Initialize
     this.init();
   }
   
   init() {
-    // Check if user is logged in
-    this.checkAuth();
-    
-    // Set up event listeners
+    // Setup event listeners
     this.setupEventListeners();
     
     // Load reviews
     this.loadReviews();
-  }
-  
-  checkAuth() {
-    // Check localStorage for auth token
-    const authToken = localStorage.getItem('discordAuthToken');
-    const userData = localStorage.getItem('discordUser');
     
-    if (authToken && userData) {
-      this.user = JSON.parse(userData);
-      this.showUserProfile();
-    } else {
-      // Check for auth code in URL (after Discord redirect)
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');
-      
-      if (code) {
-        this.handleAuthCode(code);
-      }
-    }
+    // Easter egg
+    this.setupEasterEgg();
   }
   
   setupEventListeners() {
-    // Login button
-    this.loginButton.addEventListener('click', () => this.loginWithDiscord());
-    
-    // Logout button
-    this.logoutButton.addEventListener('click', () => this.logout());
-    
-    // Star rating
-    this.ratingStars.forEach(star => {
+    // Rating stars
+    this.ratingStars?.forEach(star => {
       star.addEventListener('click', () => {
         const value = parseInt(star.getAttribute('data-value'));
         this.setRating(value);
@@ -67,116 +38,32 @@ class ReviewSystem {
     });
     
     // Character counter
-    this.reviewMessage.addEventListener('input', () => {
-      const length = this.reviewMessage.value.length;
-      this.charCount.textContent = length;
+    this.messageInput?.addEventListener('input', () => {
+      const length = this.messageInput.value.length;
+      if (this.charCount) {
+        this.charCount.textContent = length;
+      }
+      
+      // Add typing sound effect
+      if (length % 3 === 0 && window.playPixelSound) {
+        window.playPixelSound('key', 0.1);
+      }
     });
     
     // Form submission
-    document.getElementById('review-form').addEventListener('submit', (e) => {
+    this.reviewForm?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.submitReview();
     });
   }
   
-  loginWithDiscord() {
-    // Construct Discord OAuth URL
-    const scope = 'identify';
-    const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&response_type=code&scope=${scope}`;
-    
-    // Open popup for Discord login
-    const width = 500;
-    const height = 750;
-    const left = window.screen.width / 2 - width / 2;
-    const top = window.screen.height / 2 - height / 2;
-    
-    window.open(authUrl, 'discordAuth', `width=${width},height=${height},top=${top},left=${left}`);
-    
-    // Use window message to receive the auth code
-    window.addEventListener('message', (event) => {
-      if (event.origin !== window.location.origin) return;
-      
-      if (event.data.type === 'DISCORD_AUTH_SUCCESS') {
-        this.handleAuthCode(event.data.code);
-      }
-    });
-  }
-  
-  // Untuk tujuan demo, gunakan login manual - (Ganti dengan Discord OAuth di implementasi asli)
-  async handleAuthCode(code) {
-    try {
-      // Simulasi login response (ganti dengan panggilan API sebenarnya)
-      
-      // Untuk tujuan demo, gunakan data contoh
-      // Dalam implementasi sesungguhnya, gunakan code untuk mendapatkan token dari Discord API
-      const demoUser = {
-        id: '123456789',
-        username: 'DemoUser',
-        discriminator: '1234',
-        avatar: null,
-        token: 'demo_token_' + Math.random().toString(36).substring(2)
-      };
-      
-      // Simpan di localStorage
-      localStorage.setItem('discordAuthToken', demoUser.token);
-      localStorage.setItem('discordUser', JSON.stringify(demoUser));
-      
-      this.user = demoUser;
-      
-      // Update UI
-      this.showUserProfile();
-      
-      // Play sound
-      if (window.playPixelSound) {
-        window.playPixelSound('achievement');
-      }
-    } catch (error) {
-      console.error('Authentication error:', error);
-      alert('Failed to authenticate with Discord. Please try again.');
-    }
-  }
-  
-  showUserProfile() {
-    // Hide login section, show review form
-    this.loginSection.classList.add('hidden');
-    this.reviewForm.classList.remove('hidden');
-    
-    // Update user profile
-    document.getElementById('user-avatar').src = this.user.avatar 
-      ? `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.png`
-      : 'images/pixel-art/avatar.png'; // Fallback avatar
-    
-    document.getElementById('username').textContent = this.user.username;
-    document.getElementById('user-tag').textContent = `#${this.user.discriminator}`;
-  }
-  
-  logout() {
-    // Clear localStorage
-    localStorage.removeItem('discordAuthToken');
-    localStorage.removeItem('discordUser');
-    
-    // Update UI
-    this.loginSection.classList.remove('hidden');
-    this.reviewForm.classList.add('hidden');
-    
-    this.user = null;
-    
-    // Reset form
-    this.setRating(0);
-    this.reviewMessage.value = '';
-    this.charCount.textContent = '0';
-    
-    // Play sound
-    if (window.playPixelSound) {
-      window.playPixelSound('click');
-    }
-  }
-  
   setRating(value) {
-    this.ratingInput.value = value;
+    if (this.ratingInput) {
+      this.ratingInput.value = value;
+    }
     
     // Update stars UI
-    this.ratingStars.forEach(star => {
+    this.ratingStars?.forEach(star => {
       const starValue = parseInt(star.getAttribute('data-value'));
       if (starValue <= value) {
         star.classList.add('active');
@@ -193,65 +80,68 @@ class ReviewSystem {
   
   async loadReviews() {
     try {
-      // Untuk tujuan demo, tampilkan review contoh
-      // Dalam implementasi sesungguhnya, hubungkan ke API
+      if (!this.reviewsList) return;
       
-      // Tambahkan delay simulasi untuk memberi kesan loading
+      // Show loading animation
+      this.reviewsList.innerHTML = `
+        <div class="review-item loading">
+          <div class="pixel-loading">
+            <div class="pixel-loading-bar"></div>
+            <span>Loading reviews...</span>
+          </div>
+        </div>
+      `;
+      
+      // Demo reviews - humanized
       setTimeout(() => {
-        // Demo reviews
-        const demoReviews = [
+        const reviews = [
           {
-            id: 1,
+            name: "Jane Cooper",
+            role: "UI/UX Designer",
+            company: "Figma",
+            avatar: "images/pixel-art/avatar-1.png",
             rating: 5,
-            message: "Wow! Portfolio yang sangat kreatif dengan tema pixel art. Saya suka efek retro dan desainnya yang detail.",
-            user: {
-              id: "123456",
-              username: "PixelFan",
-              discriminator: "1234",
-              avatar: null
-            },
-            createdAt: "2025-01-15T10:30:00"
+            message: "Rangga's portfolio is one of the most creative developer portfolios I've seen! The pixel art theme immediately caught my attention, and the interactive elements show real attention to detail.",
+            date: "2025-02-15"
           },
           {
-            id: 2,
+            name: "Alex Morgan",
+            role: "Frontend Developer",
+            company: "Spotify",
+            avatar: "images/pixel-art/avatar-2.png",
+            rating: 5,
+            message: "Such a nostalgic and fun approach to showcasing skills! The easter eggs and mini-game are a perfect way to demonstrate both creativity and technical ability. This portfolio stands out from the usual templates.",
+            date: "2025-03-02"
+          },
+          {
+            name: "David Kim",
+            role: "Tech Lead",
+            company: "Google",
+            avatar: "images/pixel-art/avatar-3.png", 
             rating: 4,
-            message: "Website ini sangat keren! Animasi pixel art memberikan nuansa game retro yang nostalgic. Mini game nya juga menyenangkan!",
-            user: {
-              id: "234567",
-              username: "RetroGamer",
-              discriminator: "5678",
-              avatar: null
-            },
-            createdAt: "2025-02-02T15:45:00"
-          },
-          {
-            id: 3,
-            rating: 5,
-            message: "Saya terkesan dengan portofolio yang unik ini. Integrasi game dan desain website sangat menarik. Sangat menonjol dari portofolio developer lainnya!",
-            user: {
-              id: "345678",
-              username: "WebDevPro",
-              discriminator: "9012",
-              avatar: null
-            },
-            createdAt: "2025-03-10T09:15:00"
+            message: "I love how the portfolio captures the retro gaming aesthetic while still feeling modern and responsive. The projects section demonstrates a great range of skills. Would definitely recommend for creative developer roles!",
+            date: "2025-03-18"
           }
         ];
         
-        this.renderReviews(demoReviews);
+        this.renderReviews(reviews);
       }, 1500);
       
     } catch (error) {
       console.error('Failed to load reviews:', error);
-      this.reviewsList.innerHTML = `
-        <div class="review-item">
-          <div class="review-message">Failed to load reviews. Please try again later.</div>
-        </div>
-      `;
+      if (this.reviewsList) {
+        this.reviewsList.innerHTML = `
+          <div class="review-item">
+            <div class="review-message">Failed to load reviews. Please try again later.</div>
+          </div>
+        `;
+      }
     }
   }
   
   renderReviews(reviews) {
+    if (!this.reviewsList) return;
+    
     if (!reviews || reviews.length === 0) {
       this.reviewsList.innerHTML = `
         <div class="review-item">
@@ -264,7 +154,7 @@ class ReviewSystem {
     this.reviewsList.innerHTML = '';
     
     reviews.forEach(review => {
-      const date = new Date(review.createdAt);
+      const date = new Date(review.date);
       const formattedDate = date.toLocaleDateString('en-US', { 
         year: 'numeric', 
         month: 'short', 
@@ -274,30 +164,98 @@ class ReviewSystem {
       // Generate stars based on rating
       let stars = '';
       for (let i = 1; i <= 5; i++) {
-        stars += `<span class="${i <= review.rating ? 'active' : ''}">★</span>`;
+        stars += `<span class="review-star ${i <= review.rating ? 'active' : ''}">${i <= review.rating ? '★' : '☆'}</span>`;
       }
       
       const reviewItem = document.createElement('div');
-      reviewItem.className = 'review-item';
+      reviewItem.className = 'review-card pixel-card';
       reviewItem.innerHTML = `
         <div class="review-header">
-          <div class="reviewer-info">
-            <img src="${review.user.avatar 
-              ? `https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}.png` 
-              : 'images/pixel-art/avatar.png'}" 
-              class="reviewer-avatar" alt="${review.user.username}">
-            <div>
-              <div class="reviewer-name">${review.user.username}</div>
+          <div class="reviewer">
+            <div class="reviewer-avatar">
+              <img src="${review.avatar || 'images/pixel-art/avatar.png'}" alt="${review.name}">
+            </div>
+            <div class="reviewer-info">
+              <h4 class="reviewer-name">${this.escapeHTML(review.name)}</h4>
+              <div class="reviewer-title">${this.escapeHTML(review.role)}${review.company ? ` at ${this.escapeHTML(review.company)}` : ''}</div>
               <div class="review-date">${formattedDate}</div>
             </div>
           </div>
-          <div class="review-stars">${stars}</div>
+          <div class="review-rating">
+            ${stars}
+          </div>
         </div>
-        <div class="review-message">${this.escapeHTML(review.message)}</div>
+        <div class="review-content">
+          <p class="review-text">"${this.escapeHTML(review.message)}"</p>
+        </div>
       `;
       
       this.reviewsList.appendChild(reviewItem);
+      
+      // Apply animation with delay
+      setTimeout(() => {
+        reviewItem.classList.add('appear');
+      }, 100 * reviews.indexOf(review));
     });
+  }
+  
+  submitReview() {
+    // Validate form
+    if (!this.nameInput || !this.messageInput || !this.ratingInput) return;
+    
+    const name = this.nameInput.value.trim();
+    const role = this.roleInput?.value.trim() || '';
+    const message = this.messageInput.value.trim();
+    const rating = parseInt(this.ratingInput.value);
+    
+    if (!name) {
+      alert('Please enter your name');
+      return;
+    }
+    
+    if (!message) {
+      alert('Please enter your review');
+      return;
+    }
+    
+    if (isNaN(rating) || rating < 1) {
+      alert('Please select a rating');
+      return;
+    }
+    
+    // For demo purposes, simulate adding a new review
+    const newReview = {
+      name,
+      role,
+      avatar: null,
+      rating,
+      message,
+      date: new Date().toISOString()
+    };
+    
+    // Play achievement sound
+    if (window.playPixelSound) {
+      window.playPixelSound('achievement');
+    }
+    
+    // Show success message
+    alert('Thank you for your review!');
+    
+    // Reset form
+    this.nameInput.value = '';
+    if (this.roleInput) this.roleInput.value = '';
+    this.messageInput.value = '';
+    this.setRating(0);
+    
+    // Reload reviews with new one added
+    setTimeout(() => {
+      this.loadReviews();
+      
+      // Show achievement notification
+      if (window.showAchievement) {
+        window.showAchievement('Review Submitted!', 'Thanks for sharing your feedback');
+      }
+    }, 500);
   }
   
   escapeHTML(str) {
@@ -309,53 +267,47 @@ class ReviewSystem {
       .replace(/'/g, '&#039;');
   }
   
-  async submitReview() {
-    // Validate input
-    const rating = parseInt(this.ratingInput.value);
-    const message = this.reviewMessage.value.trim();
+  setupEasterEgg() {
+    // Konami code easter egg
+    let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiPosition = 0;
     
-    if (rating < 1) {
-      alert('Please select a rating');
-      return;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === konamiCode[konamiPosition]) {
+        konamiPosition++;
+        if (konamiPosition === konamiCode.length) {
+          this.activateEasterEgg();
+          konamiPosition = 0;
+        }
+      } else {
+        konamiPosition = 0;
+      }
+    });
+  }
+  
+  activateEasterEgg() {
+    // Add some fun pixel animation
+    const reviewItems = document.querySelectorAll('.review-card');
+    reviewItems.forEach((item, index) => {
+      setTimeout(() => {
+        item.classList.add('easter-egg');
+        setTimeout(() => {
+          item.classList.remove('easter-egg');
+        }, 1000);
+      }, index * 200);
+    });
+    
+    if (window.playPixelSound) {
+      window.playPixelSound('powerup');
     }
     
-    if (!message) {
-      alert('Please enter a review message');
-      return;
-    }
-    
-    try {
-      // Untuk demonstrasi, simulasi submit sukses
-      // Dalam implementasi sesungguhnya, kirim ke API
-      
-      alert('Thank you for your review! (Demo mode)');
-      
-      // Reset form
-      this.setRating(0);
-      this.reviewMessage.value = '';
-      this.charCount.textContent = '0';
-      
-      // Reload reviews
-      this.loadReviews();
-      
-      // Play achievement sound
-      if (window.playPixelSound) {
-        window.playPixelSound('achievement');
-      }
-      
-      // Show achievement
-      if (window.showAchievement) {
-        window.showAchievement('Review Submitted!');
-      }
-      
-    } catch (error) {
-      console.error('Failed to submit review:', error);
-      alert('Failed to submit review. Please try again later.');
+    if (window.showAchievement) {
+      window.showAchievement('Konami Code Discovered!', 'You found a hidden easter egg');
     }
   }
 }
 
-// Initialize review system
+// Initialize review system when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.reviewSystem = new ReviewSystem();
 });
