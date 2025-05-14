@@ -2,7 +2,7 @@
 
 class ReviewSystem {
   constructor() {
-    this.clientId = 'YOUR_DISCORD_CLIENT_ID'; // Ganti dengan Discord Client ID Anda
+    this.clientId = '1333630246737412147'; // Ganti dengan Discord Client ID Anda
     this.redirectUri = encodeURIComponent(`${window.location.origin}/auth/discord/callback`);
     this.apiEndpoint = '/api/reviews';
     this.user = null;
