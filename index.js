@@ -7,9 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Discord OAuth configuration
-const CLIENT_ID = process.env.DISCORD_CLIENT_ID || 'YOUR_CLIENT_ID';
-const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || 'YOUR_CLIENT_SECRET';
-const REDIRECT_URI = `${process.env.BASE_URL || 'http://localhost:3000'}/auth/discord/callback`;
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID || '1333630246737412147';
+const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || 'SVrBCiPQeVSe2Ytd2THXgJExzcZKGZ7g';
+const REDIRECT_URI = `${process.env.BASE_URL || 'http://rnggagib.me:3000'}/auth/discord/callback`;
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
