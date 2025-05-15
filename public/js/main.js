@@ -221,6 +221,34 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Ensure dropdowns never overflow viewport
+  function fixDropdownPositions() {
+    const dropdowns = document.querySelectorAll('.dropdown-content');
+    
+    dropdowns.forEach(dropdown => {
+      const rect = dropdown.getBoundingClientRect();
+      const parentRect = dropdown.parentElement.getBoundingClientRect();
+      
+      // Check if dropdown overflows right edge of viewport
+      if (rect.right > window.innerWidth) {
+        dropdown.style.left = 'auto';
+        dropdown.style.right = '0';
+        dropdown.style.transform = 'translateX(0)';
+        
+        // Reposition dropdown arrow
+        const arrow = dropdown.querySelector(':before');
+        if (arrow) {
+          arrow.style.left = `${parentRect.width / 2}px`;
+          arrow.style.transform = 'translateX(0)';
+        }
+      }
+    });
+  }
+
+  // Call once on load and then on window resize
+  window.addEventListener('resize', fixDropdownPositions);
+  setTimeout(fixDropdownPositions, 100);
 });
 
 // Handle active state for dropdown parent when child is active
