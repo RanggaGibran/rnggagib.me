@@ -58,23 +58,44 @@
   <div class="crt-flicker"></div>
 
   <div class="game-container">
-    <!-- Game-style navigation -->
+    <!-- Updated navigation menu -->
     <nav class="game-menu">
       <div class="pixel-logo">RNGGAGIB.ME</div>
       <div class="menu-toggle">≡</div>
       <ul class="menu-items">
-        <li class="menu-item" data-section="home" data-page="index"><i class="menu-icon bi bi-house-fill"></i>HOME</li>
-        <li class="menu-item" data-section="projects" data-page="projects"><i class="menu-icon bi bi-code-square"></i>PROJECTS</li>
-        <li class="menu-item" data-section="skills" data-page="skills"><i class="menu-icon bi bi-stars"></i>SKILLS</li>
-        <li class="menu-item has-dropdown">
-          <span class="dropdown-toggle"><i class="menu-icon bi bi-person-fill"></i>ABOUT<i class="dropdown-arrow bi bi-caret-down-fill"></i></span>
-          <ul class="dropdown-menu">
-            <li class="dropdown-item" data-section="about" data-page="about">PROFILE</li>
+        <li class="menu-item" data-section="home" data-page="index">
+          <i class="menu-icon bi bi-house-fill"></i>
+          <span class="menu-text">HOME</span>
+        </li>
+        <li class="menu-item" data-section="projects" data-page="projects">
+          <i class="menu-icon bi bi-code-square"></i>
+          <span class="menu-text">PROJECTS</span>
+        </li>
+        <li class="menu-item dropdown-parent">
+          <span class="dropdown-trigger">
+            <i class="menu-icon bi bi-person-badge"></i>
+            <span class="menu-text">PROFILE</span>
+            <i class="menu-arrow bi bi-chevron-down"></i>
+          </span>
+          <ul class="dropdown-content">
+            <li class="dropdown-item" data-section="about" data-page="about">ABOUT ME</li>
+            <li class="dropdown-item" data-section="skills" data-page="skills">SKILLS</li>
             <li class="dropdown-item" data-section="certificate" data-page="certificate">ACHIEVEMENTS</li>
           </ul>
         </li>
-        <li class="menu-item" data-section="contact" data-page="contact"><i class="menu-icon bi bi-envelope-fill"></i>CONTACT</li>
-        <li class="menu-item hidden-item" data-section="game" data-page="game"><i class="menu-icon bi bi-controller"></i>GAME</li>
+        <li class="menu-item" data-section="contact" data-page="contact">
+          <i class="menu-icon bi bi-envelope-fill"></i>
+          <span class="menu-text">CONTACT</span>
+        </li>
+        <li class="menu-item" data-section="review" data-page="review">
+          <i class="menu-icon bi bi-chat-quote"></i>
+          <span class="menu-text">REVIEWS</span>
+        </li>
+        <li class="menu-item pixel-special hidden-item" data-section="game" data-page="game">
+          <i class="menu-icon bi bi-controller"></i>
+          <span class="menu-text">GAME</span>
+          <span class="pixel-sparkle"></span>
+        </li>
       </ul>
     </nav>
 
