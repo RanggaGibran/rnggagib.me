@@ -51,14 +51,19 @@
       <div class="pixel-logo">RNGGAGIB.ME</div>
       <div class="menu-toggle">≡</div>
       <ul class="menu-items">
-        <li class="menu-item" data-page="index">HOME</li>
-        <li class="menu-item" data-page="projects">PROJECTS</li>
-        <li class="menu-item" data-page="skills">SKILLS</li>
-        <li class="menu-item" data-page="about">ABOUT</li>
-        <li class="menu-item" data-page="contact">CONTACT</li>
-        <li class="menu-item" data-page="review">REVIEWS</li>
-        <li class="menu-item active" data-page="certificate">ACHIEVEMENTS</li>
-        <li class="menu-item hidden-item" data-page="game">GAME</li>
+        <li class="menu-item" data-page="index"><i class="menu-icon bi bi-house-fill"></i>HOME</li>
+        <li class="menu-item" data-page="projects"><i class="menu-icon bi bi-code-square"></i>PROJECTS</li>
+        <li class="menu-item" data-page="skills"><i class="menu-icon bi bi-stars"></i>SKILLS</li>
+        <li class="menu-item has-dropdown active">
+          <span class="dropdown-toggle"><i class="menu-icon bi bi-person-fill"></i>ABOUT<i class="dropdown-arrow bi bi-caret-down-fill"></i></span>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" data-page="about">PROFILE</li>
+            <li class="dropdown-item active" data-page="certificate">ACHIEVEMENTS</li>
+          </ul>
+        </li>
+        <li class="menu-item" data-page="contact"><i class="menu-icon bi bi-envelope-fill"></i>CONTACT</li>
+        <li class="menu-item" data-page="review"><i class="menu-icon bi bi-chat-quote"></i>REVIEWS</li>
+        <li class="menu-item hidden-item" data-page="game"><i class="menu-icon bi bi-controller"></i>GAME</li>
       </ul>
     </nav>
 

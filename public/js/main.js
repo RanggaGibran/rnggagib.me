@@ -70,6 +70,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Mobile dropdown toggles
+  const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+  dropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      // Only apply this behavior on mobile
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        const parent = toggle.closest('.has-dropdown');
+        parent.classList.toggle('active');
+        
+        // Play sound
+        if (window.playPixelSound) {
+          window.playPixelSound('click');
+        }
+      }
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (menuItems && menuItems.classList.contains('active')) {
+      if (!e.target.closest('.game-menu')) {
+        menuItems.classList.remove('active');
+      }
+    }
+  });
+
   // Tambahkan event listeners untuk menu item dengan data-page
   document.querySelectorAll('.menu-item[data-page]').forEach(item => {
     item.addEventListener('click', () => {
@@ -102,6 +129,46 @@ document.addEventListener('DOMContentLoaded', () => {
         await navigateToSection(sectionId);
       }
     });
+  });
+
+  // Handle dropdown item clicks
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent triggering parent click handlers
+      
+      const page = item.getAttribute('data-page');
+      if (page) {
+        // Format URL consistently
+        const targetUrl = page === 'index' ? '/' : `/${page}`;
+        
+        // Show transition effect if available
+        if (window.loadingScreen && window.loadingScreen.showTransition) {
+          window.loadingScreen.showTransition(300).then(() => {
+            window.location.href = targetUrl;
+          });
+        } else {
+          window.location.href = targetUrl;
+        }
+      }
+    });
+  });
+});
+
+// Handle active state for dropdown parent when child is active
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdownItems = document.querySelectorAll('.dropdown-item');
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // Check if a dropdown item is active
+  dropdownItems.forEach(item => {
+    if (item.getAttribute('data-page') === currentPage.replace('.html', '')) {
+      // Make dropdown parent active too
+      const parentDropdown = item.closest('.has-dropdown');
+      if (parentDropdown) {
+        parentDropdown.classList.add('active');
+      }
+      item.classList.add('active');
+    }
   });
 });
 
@@ -151,7 +218,7 @@ function setupRouting() {
 async function navigateToSection(sectionId) {
   // Show transition effect
   if (window.loadingScreen) {
-    await window.loadingScreen.showTransition(300); // Turunkan ke 300ms
+    await window.loadingScreen.showTransition(300);
   }
   
   // Update URL without reload
@@ -184,7 +251,10 @@ async function navigateToSection(sectionId) {
     
     // Update active menu item
     updateActiveMenuItem(sectionId);
-  }, 100); // Delay rendering untuk menghindari jank
+    
+    // Also update dropdown items and parents
+    updateDropdownActiveState(sectionId);
+  }, 100);
   
   // Add sound effect
   if (window.playPixelSound) {
@@ -244,6 +314,25 @@ function updateActiveMenuItem(sectionId) {
   if (activeItem) {
     activeItem.classList.add('active');
   }
+}
+
+// Update dropdown active state
+function updateDropdownActiveState(sectionId) {
+  // Reset all dropdown parents and items
+  document.querySelectorAll('.has-dropdown').forEach(dropdown => {
+    dropdown.classList.remove('active');
+  });
+  
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('data-section') === sectionId) {
+      item.classList.add('active');
+      const parentDropdown = item.closest('.has-dropdown');
+      if (parentDropdown) {
+        parentDropdown.classList.add('active');
+      }
+    }
+  });
 }
 
 // Animation for project items

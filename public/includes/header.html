@@ -63,13 +63,18 @@
       <div class="pixel-logo">RNGGAGIB.ME</div>
       <div class="menu-toggle">≡</div>
       <ul class="menu-items">
-        <li class="menu-item" data-section="home" data-page="index.html">HOME</li>
-        <li class="menu-item" data-section="projects" data-page="projects.html">PROJECTS</li>
-        <li class="menu-item" data-section="skills" data-page="skills.html">SKILLS</li>
-        <li class="menu-item" data-section="about" data-page="about.html">ABOUT</li>
-        <li class="menu-item" data-section="contact" data-page="contact.html">CONTACT</li>
-        <li class="menu-item" data-page="certificate.html">ACHIEVEMENTS</li>
-        <li class="menu-item hidden-item" data-section="game" data-page="game.html">GAME</li>
+        <li class="menu-item" data-section="home" data-page="index"><i class="menu-icon bi bi-house-fill"></i>HOME</li>
+        <li class="menu-item" data-section="projects" data-page="projects"><i class="menu-icon bi bi-code-square"></i>PROJECTS</li>
+        <li class="menu-item" data-section="skills" data-page="skills"><i class="menu-icon bi bi-stars"></i>SKILLS</li>
+        <li class="menu-item has-dropdown">
+          <span class="dropdown-toggle"><i class="menu-icon bi bi-person-fill"></i>ABOUT<i class="dropdown-arrow bi bi-caret-down-fill"></i></span>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" data-section="about" data-page="about">PROFILE</li>
+            <li class="dropdown-item" data-section="certificate" data-page="certificate">ACHIEVEMENTS</li>
+          </ul>
+        </li>
+        <li class="menu-item" data-section="contact" data-page="contact"><i class="menu-icon bi bi-envelope-fill"></i>CONTACT</li>
+        <li class="menu-item hidden-item" data-section="game" data-page="game"><i class="menu-icon bi bi-controller"></i>GAME</li>
       </ul>
     </nav>
 
