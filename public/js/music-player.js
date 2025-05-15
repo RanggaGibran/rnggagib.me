@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('beforeunload', () => {
     localStorage.setItem('pixelPortfolio_musicPlaying', !backgroundMusic.paused);
   });
+
+  // Ensure music player has optimal positioning on all devices
+  adjustMusicPlayerPosition();
+  
+  // Handle window resize events
+  window.addEventListener('resize', adjustMusicPlayerPosition);
 });
 
 // Music Player Controller
@@ -158,5 +164,28 @@ class MusicPlayer {
   updateVolumeDisplay() {
     if (!this.volumeValue) return;
     this.volumeValue.textContent = `${Math.round(this.volume * 100)}%`;
+  }
+}
+
+function adjustMusicPlayerPosition() {
+  const audioPlayer = document.querySelector('.audio-player');
+  if (!audioPlayer) return;
+  
+  // Check if we're on mobile
+  if (window.innerWidth <= 480) {
+    // Check if footer is in view
+    const footer = document.querySelector('.game-controls');
+    if (footer) {
+      const footerRect = footer.getBoundingClientRect();
+      
+      // If footer is visible in viewport
+      if (footerRect.top < window.innerHeight) {
+        audioPlayer.style.bottom = '70px'; // Push up to avoid overlapping footer
+      } else {
+        audioPlayer.style.bottom = '20px'; // Default position
+      }
+    }
+  } else {
+    audioPlayer.style.bottom = '20px'; // Default position on larger screens
   }
 }

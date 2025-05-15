@@ -901,52 +901,71 @@ html {
   }
 }
 
-/* Audio Player Styles */
+/* Updated Audio Player Styling */
 .audio-player {
   position: fixed;
-  bottom: 70px;
-  left: 15px;
-  z-index: 9999;
-  background: var(--dark);
-  border: 2px solid var(--accent);
-  padding: 10px;
-  border-radius: 4px;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9900;
+  background-color: var(--dark);
+  border: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 8px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: all 0.3s ease;
+  transform-origin: bottom right;
 }
 
 .audio-player:hover {
-  transform: translateY(-5px);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(65, 166, 246, 0.4);
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .audio-button {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  position: relative;
+  overflow: hidden;
   transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.audio-button:hover {
+  transform: scale(1.1);
 }
 
 .audio-button.playing {
   background-color: var(--accent);
-  animation: pulse 2s infinite;
+  animation: musicPlaying 2s infinite;
+}
+
+.audio-button:hover .button-glow {
+  left: 100%;
 }
 
 .volume-control {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  padding-left: 5px;
 }
 
 .pixel-slider {
   -webkit-appearance: none;
   appearance: none;
+  width: 80px;
   height: 8px;
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid var(--primary);
@@ -971,24 +990,25 @@ html {
   text-align: center;
 }
 
-/* Animasi musik bermain */
-@keyframes musicPlaying {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .audio-player {
+    bottom: 15px;
+    right: 15px;
+    transform: scale(0.9);
+  }
+  
+  .audio-player:hover {
+    transform: scale(0.95);
+  }
 }
 
-#music-toggle.playing {
-  animation: musicPlaying 1s infinite;
-  background-color: var(--accent);
-}
-
-#music-toggle {
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#music-toggle:hover {
-  transform: scale(1.1);
+/* Ensure consistent placement across all pages */
+@media (max-width: 480px) {
+  .audio-player {
+    bottom: 70px;
+    right: 10px;
+  }
 }
 
 /* Status musik */

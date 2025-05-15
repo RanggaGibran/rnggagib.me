@@ -645,39 +645,6 @@
       </div>
     </div>
 
-    <!-- Ganti komponen audio player yang ada dengan yang berikut ini -->
-    <div class="audio-player visible" style="position: fixed; bottom: 70px; left: 15px; z-index: 9999; background: #1a1a2e; border: 2px solid #4ecca3; padding: 6px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.5); max-width: 40px; overflow: hidden; transition: max-width 0.3s ease, opacity 0.3s ease; opacity: 0.8;">
-      <audio id="background-music" loop preload="auto">
-        <source src="audio/background.mp3" type="audio/mpeg">
-      </audio>
-      
-      <button id="music-toggle" class="pixel-button" style="margin-bottom: 6px; min-width: 30px; position: relative; font-size: 12px;">♫</button>
-      
-      <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
-        <input type="range" id="volume-slider" min="0" max="100" value="30" style="width: 80px; transform: rotate(-90deg); transform-origin: 40px 40px; margin-top: 30px; margin-bottom: 30px;">
-        <div style="display: flex; justify-content: center; width: 100%; font-size: 7px; color: #4ecca3;">
-          <span id="music-status">Paused</span>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      // Tambahkan interaksi hover untuk expand/collapse
-      document.addEventListener('DOMContentLoaded', function() {
-        const audioPlayer = document.querySelector('.audio-player');
-        
-        audioPlayer.addEventListener('mouseenter', function() {
-          this.style.maxWidth = '100px';
-          this.style.opacity = '1';
-        });
-        
-        audioPlayer.addEventListener('mouseleave', function() {
-          this.style.maxWidth = '40px';
-          this.style.opacity = '0.8';
-        });
-      });
-    </script>
-
     <!-- Game controls/footer -->
     <footer class="game-controls">
       <div class="social-links">
