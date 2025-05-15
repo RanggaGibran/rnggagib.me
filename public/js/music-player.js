@@ -1,3 +1,50 @@
+// Add at the top of the file to ensure the player is initialized
+
+// Ensure music player is initialized properly
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if music player exists, if not create it
+  if (!document.querySelector('.audio-player')) {
+    const audioPlayer = document.createElement('div');
+    audioPlayer.className = 'audio-player visible';
+    audioPlayer.innerHTML = `
+      <audio id="background-music" loop preload="auto">
+        <source src="audio/background.mp3" type="audio/mpeg">
+      </audio>
+      
+      <div class="audio-controls">
+        <button id="music-toggle" class="pixel-button audio-button" title="Toggle Music">
+          <span class="music-icon">♫</span>
+          <span class="button-glow"></span>
+        </button>
+        
+        <div class="volume-control">
+          <input type="range" id="volume-slider" min="0" max="100" value="30" class="pixel-slider">
+          <div class="volume-value">30%</div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(audioPlayer);
+    console.log('Music player dynamically added to the page');
+  }
+
+  // Initialize music player
+  if (!window.musicPlayer) {
+    window.musicPlayer = new MusicPlayer();
+    console.log('Music player initialized');
+  }
+  
+  // Ensure the player is visible
+  const player = document.querySelector('.audio-player');
+  if (player) {
+    player.style.display = 'flex';
+    player.style.opacity = '1';
+    player.style.visibility = 'visible';
+  }
+  
+  // Position the player correctly
+  adjustMusicPlayerPosition();
+});
+
 // Tambahkan di bagian atas file
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -167,9 +214,19 @@ class MusicPlayer {
   }
 }
 
+// Update the existing function
+
 function adjustMusicPlayerPosition() {
   const audioPlayer = document.querySelector('.audio-player');
-  if (!audioPlayer) return;
+  if (!audioPlayer) {
+    console.warn('Audio player element not found!');
+    return;
+  }
+  
+  // Ensure the player is visible
+  audioPlayer.style.display = 'flex';
+  audioPlayer.style.visibility = 'visible';
+  audioPlayer.style.opacity = '1';
   
   // Check if we're on mobile
   if (window.innerWidth <= 480) {
@@ -189,3 +246,7 @@ function adjustMusicPlayerPosition() {
     audioPlayer.style.bottom = '20px'; // Default position on larger screens
   }
 }
+
+// Call this function on window resize and scroll
+window.addEventListener('resize', adjustMusicPlayerPosition);
+window.addEventListener('scroll', adjustMusicPlayerPosition);
