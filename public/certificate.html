@@ -23,6 +23,22 @@
   </script>
 </head>
 <body>
+  <!-- Loading Transition -->
+  <div class="loading-transition" id="loading-transition">
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+    <div class="loading-block"></div>
+  </div>
+
   <!-- CRT & Scanlines Effects -->
   <div class="scanlines"></div>
   <div class="crt-flicker"></div>
@@ -40,12 +56,23 @@
         <li class="menu-item" data-page="skills">SKILLS</li>
         <li class="menu-item" data-page="about">ABOUT</li>
         <li class="menu-item" data-page="contact">CONTACT</li>
-        <li class="menu-item hidden-item" data-page="game">GAME</li>
+        <li class="menu-item" data-page="review">REVIEWS</li>
         <li class="menu-item active" data-page="certificate">ACHIEVEMENTS</li>
+        <li class="menu-item hidden-item" data-page="game">GAME</li>
       </ul>
     </nav>
 
+    <!-- Game screen sections -->
     <main class="game-screen">
+      <!-- Background parallax elements -->
+      <div class="parallax-bg">
+        <div class="stars-container"></div>
+        <div class="bg-layer mountains"></div>
+        <div class="bg-layer trees"></div>
+        <div class="bg-layer grass"></div>
+        <div class="pixel-creature"></div>
+      </div>
+
       <section id="achievements" class="game-level active">
         <h2 class="section-title">ACHIEVEMENTS & CERTIFICATES</h2>
         
@@ -76,8 +103,97 @@
                 <span class="issue-date">Date: January 2024</span>
               </div>
               <div class="certificate-actions">
-                <button class="pixel-button" onclick="openCertificate('certificate/python-certificate.pdf')">VIEW</button>
-                <a href="certificate/python-certificate.pdf" download class="pixel-button">DOWNLOAD</a>
+                <button class="pixel-button" onclick="openCertificate('certificate/python-certificate.pdf')">
+                  <span class="button-text">VIEW</span>
+                  <span class="button-glow"></span>
+                </button>
+                <a href="certificate/python-certificate.pdf" download class="pixel-button">
+                  <span class="button-text">DOWNLOAD</span>
+                  <span class="button-glow"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Java Certification -->
+          <div class="certificate-card">
+            <div class="certificate-header">
+              <h3>Java Developer Certification</h3>
+              <div class="certificate-badge">
+                <div class="badge-icon certificate-java">
+                  <span class="certificate-icon">J</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="certificate-preview">
+              <img src="images/certificates/java-cert-preview.png" alt="Java Certificate Preview" 
+                   onclick="openCertificate('certificate/java-certificate.pdf')" class="cert-preview-img">
+              <div class="preview-overlay">
+                <span class="view-text">Click to View</span>
+              </div>
+            </div>
+            
+            <div class="certificate-info">
+              <p>Java developer certification showcasing expertise in core Java programming, object-oriented development, and enterprise applications.</p>
+              <div class="certificate-meta">
+                <span class="issuer">Issued by: Oracle</span>
+                <span class="issue-date">Date: March 2024</span>
+              </div>
+              <div class="certificate-actions">
+                <button class="pixel-button" onclick="openCertificate('certificate/java-certificate.pdf')">
+                  <span class="button-text">VIEW</span>
+                  <span class="button-glow"></span>
+                </button>
+                <a href="certificate/java-certificate.pdf" download class="pixel-button">
+                  <span class="button-text">DOWNLOAD</span>
+                  <span class="button-glow"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Game Achievements Section -->
+          <h3 class="achievements-subtitle">GAME ACHIEVEMENTS</h3>
+          
+          <div class="achievements-grid">
+            <div class="achievement-item">
+              <div class="achievement-icon completed">
+                <div class="achievement-glow"></div>
+              </div>
+              <div class="achievement-details">
+                <h4>Theme Master</h4>
+                <p>Discovered and tried all available themes</p>
+              </div>
+            </div>
+            
+            <div class="achievement-item">
+              <div class="achievement-icon completed">
+                <div class="achievement-glow"></div>
+              </div>
+              <div class="achievement-details">
+                <h4>Coin Collector</h4>
+                <p>Collected over 25 coins across the site</p>
+              </div>
+            </div>
+            
+            <div class="achievement-item">
+              <div class="achievement-icon completed">
+                <div class="achievement-glow"></div>
+              </div>
+              <div class="achievement-details">
+                <h4>Konami Master</h4>
+                <p>Found and activated the Konami code easter egg</p>
+              </div>
+            </div>
+            
+            <div class="achievement-item locked">
+              <div class="achievement-icon">
+                <div class="achievement-lock">?</div>
+              </div>
+              <div class="achievement-details">
+                <h4>???</h4>
+                <p>This achievement remains locked</p>
               </div>
             </div>
           </div>
@@ -100,7 +216,9 @@
             <div class="certificate-info">
               <p>This achievement will be unlocked in future updates. Stay tuned!</p>
               <div class="certificate-actions">
-                <button class="pixel-button disabled">LOCKED</button>
+                <button class="pixel-button disabled">
+                  <span class="button-text">LOCKED</span>
+                </button>
               </div>
             </div>
           </div>
@@ -142,7 +260,7 @@
   <div class="theme-switcher">
     <div class="theme-icon">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <path fill="currentColor" d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2S2 6.48 2 12s4.48 10 10 10zm0-18c4.42 0 8 3.58 8 8s-3.58 8-8-8s-8-3.58-8-8s3.58-8 8-8z"></path>
+        <path fill="currentColor" d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2S2 6.48 2 12s4.48 10 10 10zm0-18c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8z"></path>
         <path fill="currentColor" d="M12 16a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path>
       </svg>
     </div>
@@ -173,42 +291,36 @@
   </div>
 
   <!-- Audio Player -->
-  <div class="audio-player visible" style="position: fixed; bottom: 70px; left: 15px; z-index: 9999; background: #1a1a2e; border: 2px solid #4ecca3; padding: 6px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.5); max-width: 40px; overflow: hidden; transition: max-width 0.3s ease, opacity 0.3s ease; opacity: 0.8;">
+  <div class="audio-player visible">
     <audio id="background-music" loop preload="auto">
       <source src="audio/background.mp3" type="audio/mpeg">
     </audio>
-    <button id="music-toggle" class="pixel-button" style="margin-bottom: 6px; min-width: 30px; position: relative; font-size: 12px;">♫</button>
-    <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
-      <input type="range" id="volume-slider" min="0" max="100" value="30" style="width: 80px; transform: rotate(-90deg); transform-origin: 40px 40px; margin-top: 30px; margin-bottom: 30px;">
-      <div style="display: flex; justify-content: center; width: 100%; font-size: 7px; color: #4ecca3;">
-        <span id="music-status">Paused</span>
+    
+    <div class="audio-controls">
+      <button id="music-toggle" class="pixel-button audio-button" title="Toggle Music">
+        <span class="music-icon">♫</span>
+      </button>
+      
+      <div class="volume-control">
+        <input type="range" id="volume-slider" min="0" max="100" value="30" class="pixel-slider">
+        <div class="volume-value">30%</div>
       </div>
     </div>
   </div>
 
   <!-- Certificate functionality -->
   <script>
-    // Audio player hover effect
-    document.addEventListener('DOMContentLoaded', function() {
-      const audioPlayer = document.querySelector('.audio-player');
-      
-      audioPlayer.addEventListener('mouseenter', function() {
-        this.style.maxWidth = '100px';
-        this.style.opacity = '1';
-      });
-      
-      audioPlayer.addEventListener('mouseleave', function() {
-        this.style.maxWidth = '40px';
-        this.style.opacity = '0.8';
-      });
-    });
-
     // Certificate functions
     function openCertificate(pdfPath) {
       const modal = document.getElementById('certificate-modal');
       const frame = document.getElementById('certificate-frame');
       frame.src = pdfPath;
       modal.classList.add('active');
+      
+      // Play sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('click');
+      }
     }
     
     function closeCertificateModal() {
@@ -218,6 +330,11 @@
       setTimeout(() => {
         frame.src = "";
       }, 300);
+      
+      // Play sound effect
+      if (window.playPixelSound) {
+        window.playPixelSound('click');
+      }
     }
     
     // Close with Escape key
@@ -228,28 +345,59 @@
     });
     
     // Close when clicking outside
-    document.getElementById('certificate-modal').addEventListener('click', (e) => {
+    document.getElementById('certificate-modal')?.addEventListener('click', (e) => {
       if (e.target === document.getElementById('certificate-modal')) {
         closeCertificateModal();
       }
     });
+
+    // Initialize simple loading screen
+    const simpleLoading = {
+      showTransition: function(duration = 300) {
+        const transition = document.getElementById('loading-transition');
+        if (transition) transition.classList.add('active');
+        
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve();
+          }, duration);
+        });
+      },
+      hideTransition: function() {
+        const transition = document.getElementById('loading-transition');
+        if (transition) transition.classList.remove('active');
+      }
+    };
+    
+    // Make it available globally
+    window.loadingScreen = simpleLoading;
     
     // Navigation with consistent URL formation
     document.querySelectorAll('.menu-item[data-page]').forEach(item => {
       item.addEventListener('click', () => {
         const page = item.getAttribute('data-page');
         if (page) {
-          // Hapus .html dari URL
           const targetUrl = page === 'index' ? '/' : `/${page}`;
-          window.location.href = targetUrl;
+          
+          // Show loading transition
+          const loadingTransition = document.getElementById('loading-transition');
+          if (loadingTransition) {
+            loadingTransition.classList.add('active');
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 400);
+          } else {
+            window.location.href = targetUrl;
+          }
         }
       });
     });
   </script>
   
   <!-- Include scripts -->
+  <script src="js/loading.js"></script>
   <script src="js/theme-switcher.js"></script>
   <script src="js/music-player.js"></script>
+  <script src="js/decorative.js"></script>
 </body>
 </html>
-``` 

@@ -1,4 +1,4 @@
-// Human-like Review System
+// Human-like Review System with Improvements
 
 class ReviewSystem {
   constructor() {
@@ -13,11 +13,19 @@ class ReviewSystem {
     this.charCount = document.getElementById('char-count');
     this.submitButton = document.getElementById('submit-review');
     
+    // Check if we have elements available
+    if (!this.reviewsList) {
+      console.warn('Reviews list element not found');
+      return;
+    }
+    
     // Initialize
     this.init();
   }
   
   init() {
+    console.log('Initializing review system...');
+    
     // Setup event listeners
     this.setupEventListeners();
     
@@ -26,6 +34,9 @@ class ReviewSystem {
     
     // Easter egg
     this.setupEasterEgg();
+    
+    // Load saved draft if exists
+    this.loadDraft();
   }
   
   setupEventListeners() {
@@ -34,6 +45,17 @@ class ReviewSystem {
       star.addEventListener('click', () => {
         const value = parseInt(star.getAttribute('data-value'));
         this.setRating(value);
+      });
+      
+      // Add hover effect
+      star.addEventListener('mouseenter', () => {
+        const value = parseInt(star.getAttribute('data-value'));
+        this.previewRating(value);
+      });
+      
+      star.addEventListener('mouseleave', () => {
+        const currentRating = parseInt(this.ratingInput?.value || 0);
+        this.previewRating(currentRating);
       });
     });
     
@@ -48,12 +70,37 @@ class ReviewSystem {
       if (length % 3 === 0 && window.playPixelSound) {
         window.playPixelSound('key', 0.1);
       }
+      
+      // Save draft
+      this.saveDraft();
+    });
+    
+    // Name input draft saving
+    this.nameInput?.addEventListener('input', () => {
+      this.saveDraft();
+    });
+    
+    // Role input draft saving
+    this.roleInput?.addEventListener('input', () => {
+      this.saveDraft();
     });
     
     // Form submission
     this.reviewForm?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.submitReview();
+    });
+  }
+  
+  previewRating(value) {
+    // Show preview of rating on hover
+    this.ratingStars?.forEach(star => {
+      const starValue = parseInt(star.getAttribute('data-value'));
+      if (starValue <= value) {
+        star.classList.add('preview');
+      } else {
+        star.classList.remove('preview');
+      }
     });
   }
   
@@ -76,6 +123,9 @@ class ReviewSystem {
     if (window.playPixelSound) {
       window.playPixelSound('click');
     }
+    
+    // Save draft
+    this.saveDraft();
   }
   
   async loadReviews() {
@@ -92,9 +142,32 @@ class ReviewSystem {
         </div>
       `;
       
-      // Demo reviews - humanized
-      setTimeout(() => {
-        const reviews = [
+      // Try to fetch reviews from API first
+      let reviews;
+      try {
+        const response = await fetch('/api/reviews');
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Map API response to our format
+          reviews = data.map(review => ({
+            name: review.user?.username || 'Anonymous',
+            role: review.user?.role || '',
+            company: review.user?.company || '',
+            avatar: review.user?.avatar ? `https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}.png` : null,
+            rating: review.rating,
+            message: review.message,
+            date: review.createdAt
+          }));
+        }
+      } catch (error) {
+        console.log('Could not load reviews from API, using fallback data');
+      }
+      
+      // If API fetch failed, use fallback data
+      if (!reviews) {
+        // Demo reviews - humanized
+        reviews = [
           {
             name: "Jane Cooper",
             role: "UI/UX Designer",
@@ -123,9 +196,21 @@ class ReviewSystem {
             date: "2025-03-18"
           }
         ];
-        
-        this.renderReviews(reviews);
-      }, 1500);
+      }
+      
+      // Get local storage reviews
+      const localReviews = this.getLocalReviews();
+      
+      // Combine API/fallback reviews with local reviews
+      const allReviews = [...reviews, ...localReviews];
+      
+      // Sort by date (newest first)
+      allReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Render all reviews
+      setTimeout(() => {
+        this.renderReviews(allReviews);
+      }, 800); // Show loading animation briefly for effect
       
     } catch (error) {
       console.error('Failed to load reviews:', error);
@@ -192,7 +277,7 @@ class ReviewSystem {
       
       this.reviewsList.appendChild(reviewItem);
       
-      // Apply animation with delay
+      // Apply animation with delay for staggered effect
       setTimeout(() => {
         reviewItem.classList.add('appear');
       }, 100 * reviews.indexOf(review));
@@ -233,32 +318,131 @@ class ReviewSystem {
       date: new Date().toISOString()
     };
     
-    // Play achievement sound
-    if (window.playPixelSound) {
-      window.playPixelSound('achievement');
-    }
-    
-    // Show success message
-    alert('Thank you for your review!');
-    
-    // Reset form
-    this.nameInput.value = '';
-    if (this.roleInput) this.roleInput.value = '';
-    this.messageInput.value = '';
-    this.setRating(0);
-    
-    // Reload reviews with new one added
-    setTimeout(() => {
-      this.loadReviews();
+    // Try to send to API
+    this.sendReviewToAPI(newReview)
+      .catch(err => {
+        console.log('Could not save to API, saving locally instead');
+        this.saveLocalReview(newReview);
+      })
+      .finally(() => {
+        // Play achievement sound
+        if (window.playPixelSound) {
+          window.playPixelSound('achievement');
+        }
+        
+        // Show success message
+        alert('Thank you for your review!');
+        
+        // Reset form
+        this.nameInput.value = '';
+        if (this.roleInput) this.roleInput.value = '';
+        this.messageInput.value = '';
+        this.setRating(0);
+        
+        // Clear draft
+        this.clearDraft();
+        
+        // Reload reviews to include the new one
+        setTimeout(() => {
+          this.loadReviews();
+          
+          // Show achievement notification
+          if (window.showAchievement) {
+            window.showAchievement('Review Submitted!');
+          }
+        }, 500);
+      });
+  }
+  
+  async sendReviewToAPI(review) {
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rating: review.rating,
+          message: review.message,
+          name: review.name,
+          role: review.role
+        })
+      });
       
-      // Show achievement notification
-      if (window.showAchievement) {
-        window.showAchievement('Review Submitted!', 'Thanks for sharing your feedback');
+      if (!response.ok) {
+        throw new Error('API error');
       }
-    }, 500);
+      
+      return await response.json();
+    } catch (err) {
+      throw err;
+    }
+  }
+  
+  saveLocalReview(review) {
+    // Get existing reviews
+    const reviews = JSON.parse(localStorage.getItem('pixelPortfolio_reviews') || '[]');
+    
+    // Add new review
+    reviews.push(review);
+    
+    // Save back to localStorage
+    localStorage.setItem('pixelPortfolio_reviews', JSON.stringify(reviews));
+  }
+  
+  getLocalReviews() {
+    return JSON.parse(localStorage.getItem('pixelPortfolio_reviews') || '[]');
+  }
+  
+  saveDraft() {
+    if (!this.nameInput || !this.messageInput || !this.ratingInput) return;
+    
+    const draft = {
+      name: this.nameInput.value,
+      role: this.roleInput?.value || '',
+      message: this.messageInput.value,
+      rating: this.ratingInput.value
+    };
+    
+    localStorage.setItem('pixelPortfolio_reviewDraft', JSON.stringify(draft));
+  }
+  
+  loadDraft() {
+    const draftJson = localStorage.getItem('pixelPortfolio_reviewDraft');
+    if (!draftJson) return;
+    
+    try {
+      const draft = JSON.parse(draftJson);
+      
+      if (this.nameInput && draft.name) {
+        this.nameInput.value = draft.name;
+      }
+      
+      if (this.roleInput && draft.role) {
+        this.roleInput.value = draft.role;
+      }
+      
+      if (this.messageInput && draft.message) {
+        this.messageInput.value = draft.message;
+        if (this.charCount) {
+          this.charCount.textContent = draft.message.length;
+        }
+      }
+      
+      if (draft.rating) {
+        this.setRating(parseInt(draft.rating));
+      }
+    } catch (err) {
+      console.error('Error loading review draft', err);
+    }
+  }
+  
+  clearDraft() {
+    localStorage.removeItem('pixelPortfolio_reviewDraft');
   }
   
   escapeHTML(str) {
+    if (!str) return '';
     return str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -297,17 +481,21 @@ class ReviewSystem {
       }, index * 200);
     });
     
+    // Add achievement for finding Easter egg
+    localStorage.setItem('pixelPortfolio_konamiFound', 'true');
+    
     if (window.playPixelSound) {
       window.playPixelSound('powerup');
     }
     
     if (window.showAchievement) {
-      window.showAchievement('Konami Code Discovered!', 'You found a hidden easter egg');
+      window.showAchievement('Konami Code Discovered!');
     }
   }
 }
 
 // Initialize review system when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('Initializing review system');
   window.reviewSystem = new ReviewSystem();
 });
