@@ -31,6 +31,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
   
+  // Inisialisasi review system jika berada di halaman reviews
+  if (currentPath.includes('review') || document.getElementById('review')) {
+    // Load review system script if not loaded
+    if (!window.reviewSystem && typeof ReviewSystem === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'js/reviews.js';
+      script.onload = function() {
+        window.reviewSystem = new ReviewSystem();
+      };
+      document.head.appendChild(script);
+    } else if (typeof ReviewSystem !== 'undefined') {
+      window.reviewSystem = new ReviewSystem();
+    }
+  }
+  
   // Mobile menu toggle
   const menuToggle = document.querySelector('.menu-toggle');
   const menuItems = document.querySelector('.menu-items');
@@ -60,15 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
     item.addEventListener('click', () => {
       const page = item.getAttribute('data-page');
       
-      // Play sound effect
-      if (window.playPixelSound) {
-        window.playPixelSound('click');
-      }
-      
-      // Navigate to the page
+      // Fix: Format URL agar konsisten tanpa .html
       if (page) {
-        // Fix: Pastikan URL terbentuk dengan benar
-        const targetUrl = page === 'index' ? '/' : `/${page}.html`;
+        // Perbaikan: Gunakan URL tanpa .html
+        const targetUrl = page === 'index' ? '/' : `/${page}`;
         
         // Add transition effect if available
         if (window.loadingScreen && window.loadingScreen.showTransition) {
@@ -78,6 +88,18 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           window.location.href = targetUrl;
         }
+      }
+    });
+  });
+  
+  // Pastikan event listener untuk navigasi semuanya menggunakan format yang sama
+  const navLinks = document.querySelectorAll('.menu-item[data-section]');
+  navLinks.forEach(link => {
+    link.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const sectionId = link.getAttribute('data-section');
+      if (sectionId) {
+        await navigateToSection(sectionId);
       }
     });
   });
@@ -370,8 +392,8 @@ function showAchievement(text) {
   icon.className = 'achievement-icon';
   
   const message = document.createElement('div');
-  message.className = 'achievement-text';
   message.textContent = text;
+  message.className = 'achievement-text';
   
   achievement.appendChild(icon);
   achievement.appendChild(message);
@@ -720,5 +742,54 @@ document.addEventListener('DOMContentLoaded', () => {
         certificatePopup.classList.remove('active');
       }
     });
+  }
+});
+
+// Certificate functions
+function openCertificate(pdfPath) {
+  const modal = document.getElementById('certificate-modal');
+  const frame = document.getElementById('certificate-frame');
+  if (modal && frame) {
+    frame.src = pdfPath;
+    modal.classList.add('active');
+    
+    // Play sound effect
+    if (window.playPixelSound) {
+      window.playPixelSound('click');
+    }
+  }
+}
+
+function closeCertificateModal() {
+  const modal = document.getElementById('certificate-modal');
+  const frame = document.getElementById('certificate-frame');
+  if (modal && frame) {
+    modal.classList.remove('active');
+    setTimeout(() => {
+      frame.src = "";
+    }, 300);
+    
+    // Play sound effect
+    if (window.playPixelSound) {
+      window.playPixelSound('click');
+    }
+  }
+}
+
+// Add these functions to window object
+window.openCertificate = openCertificate;
+window.closeCertificateModal = closeCertificateModal;
+
+// Close certificate modal with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeCertificateModal();
+  }
+});
+
+// Close certificate modal when clicking outside
+document.getElementById('certificate-modal')?.addEventListener('click', (e) => {
+  if (e.target === document.getElementById('certificate-modal')) {
+    closeCertificateModal();
   }
 });

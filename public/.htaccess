@@ -2,6 +2,10 @@
   RewriteEngine On
   RewriteBase /
   
+  # Redirect review.html and certificate.html to clean URLs
+  RewriteRule ^review\.html$ /review [R=301,L]
+  RewriteRule ^certificate\.html$ /certificate [R=301,L]
+  
   # Jangan rewrite jika file atau direktori ada
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

@@ -64,8 +64,8 @@
         <li class="menu-item" data-section="skills">SKILLS</li>
         <li class="menu-item" data-section="about">ABOUT</li>
         <li class="menu-item" data-section="contact">CONTACT</li>
-        <li class="menu-item" data-page="review">REVIEWS</li>
-        <li class="menu-item" data-page="certificate">ACHIEVEMENTS</li>
+        <li class="menu-item" data-section="review">REVIEWS</li>
+        <li class="menu-item" data-section="certificate">ACHIEVEMENTS</li>
         <li class="menu-item hidden-item" data-section="game">GAME</li>
       </ul>
     </nav>
@@ -375,6 +375,201 @@
         </div>
       </section>
 
+      <!-- Reviews section -->
+      <section id="review" class="game-level">
+        <h2 class="section-title">GUESTBOOK & REVIEWS</h2>
+        
+        <div class="reviews-container">
+          <!-- Reviews List -->
+          <div class="reviews-grid" id="reviews-list">
+            <div class="review-item loading">
+              <div class="loading-text">Loading reviews...</div>
+            </div>
+          </div>
+          
+          <!-- Review Form -->
+          <div class="review-form-wrapper pixel-card">
+            <h3 class="form-title">Share Your Feedback</h3>
+            <form id="review-form" class="pixel-form">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="reviewer-name">Your Name:</label>
+                  <input type="text" id="reviewer-name" class="pixel-input" maxlength="40" required>
+                </div>
+                <div class="form-field">
+                  <label for="reviewer-role">Role/Company (Optional):</label>
+                  <input type="text" id="reviewer-role" class="pixel-input" maxlength="40">
+                </div>
+              </div>
+              
+              <div class="form-field">
+                <label for="rating">Rating:</label>
+                <div class="pixel-rating">
+                  <span class="pixel-star" data-value="1">★</span>
+                  <span class="pixel-star" data-value="2">★</span>
+                  <span class="pixel-star" data-value="3">★</span>
+                  <span class="pixel-star" data-value="4">★</span>
+                  <span class="pixel-star" data-value="5">★</span>
+                </div>
+                <input type="hidden" id="rating" value="0">
+              </div>
+              
+              <div class="form-field">
+                <label for="review-message">Your Review:</label>
+                <textarea id="review-message" class="pixel-textarea" maxlength="500" placeholder="Share your thoughts about this portfolio..."></textarea>
+                <div class="char-counter"><span id="char-count">0</span>/500</div>
+              </div>
+              
+              <button type="submit" class="pixel-button submit-review" id="submit-review">
+                <span class="button-text">SUBMIT REVIEW</span>
+                <span class="button-glow"></span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certificate/Achievement section -->
+      <section id="certificate" class="game-level">
+        <h2 class="section-title">ACHIEVEMENTS & CERTIFICATES</h2>
+        
+        <div class="achievements-page">
+          <!-- Python Certificate -->
+          <div class="certificate-card">
+            <div class="certificate-header">
+              <h3>Codedex Python Certificate</h3>
+              <div class="certificate-badge">
+                <div class="badge-icon certificate-python">
+                  <span class="certificate-icon">Py</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="certificate-preview">
+              <img src="images/certificates/python-cert-preview.png" alt="Python Certificate Preview" 
+                   onclick="openCertificate('certificate/python-certificate.pdf')" class="cert-preview-img">
+              <div class="preview-overlay">
+                <span class="view-text">Click to View</span>
+              </div>
+            </div>
+            
+            <div class="certificate-info">
+              <p>Successfully completed the Python programming curriculum, demonstrating proficiency in Python fundamentals, data structures, and algorithms.</p>
+              <div class="certificate-meta">
+                <span class="issuer">Issued by: Codedex</span>
+                <span class="issue-date">Date: January 2024</span>
+              </div>
+              <div class="certificate-actions">
+                <button class="pixel-button" onclick="openCertificate('certificate/python-certificate.pdf')">
+                  <span class="button-text">VIEW</span>
+                  <span class="button-glow"></span>
+                </button>
+                <a href="certificate/python-certificate.pdf" download class="pixel-button">
+                  <span class="button-text">DOWNLOAD</span>
+                  <span class="button-glow"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Java Certification -->
+          <div class="certificate-card">
+            <div class="certificate-header">
+              <h3>Java Developer Certification</h3>
+              <div class="certificate-badge">
+                <div class="badge-icon certificate-java">
+                  <span class="certificate-icon">J</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="certificate-preview">
+              <img src="images/certificates/java-cert-preview.png" alt="Java Certificate Preview" 
+                   onclick="openCertificate('certificate/java-certificate.pdf')" class="cert-preview-img">
+              <div class="preview-overlay">
+                <span class="view-text">Click to View</span>
+              </div>
+            </div>
+            
+            <div class="certificate-info">
+              <p>Java developer certification showcasing expertise in core Java programming, object-oriented development, and enterprise applications.</p>
+              <div class="certificate-meta">
+                <span class="issuer">Issued by: Oracle</span>
+                <span class="issue-date">Date: March 2024</span>
+              </div>
+              <div class="certificate-actions">
+                <button class="pixel-button" onclick="openCertificate('certificate/java-certificate.pdf')">
+                  <span class="button-text">VIEW</span>
+                  <span class="button-glow"></span>
+                </button>
+                <a href="certificate/java-certificate.pdf" download class="pixel-button">
+                  <span class="button-text">DOWNLOAD</span>
+                  <span class="button-glow"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Game Achievements Section -->
+          <h3 class="achievements-subtitle">GAME ACHIEVEMENTS</h3>
+          
+          <div class="achievements-grid">
+            <div class="achievement-item">
+              <div class="achievement-icon completed">
+                <div class="achievement-glow"></div>
+              </div>
+              <div class="achievement-details">
+                <h4>Theme Master</h4>
+                <p>Discovered and tried all available themes</p>
+              </div>
+            </div>
+            
+            <div class="achievement-item">
+              <div class="achievement-icon completed">
+                <div class="achievement-glow"></div>
+              </div>
+              <div class="achievement-details">
+                <h4>Coin Collector</h4>
+                <p>Collected over 25 coins across the site</p>
+              </div>
+            </div>
+            
+            <div class="achievement-item">
+              <div class="achievement-icon completed">
+                <div class="achievement-glow"></div>
+              </div>
+              <div class="achievement-details">
+                <h4>Konami Master</h4>
+                <p>Found and activated the Konami code easter egg</p>
+              </div>
+            </div>
+            
+            <div class="achievement-item locked">
+              <div class="achievement-icon">
+                <div class="achievement-lock">?</div>
+              </div>
+              <div class="achievement-details">
+                <h4>???</h4>
+                <p>This achievement remains locked</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Certificate Viewer Modal -->
+        <div id="certificate-modal" class="certificate-modal">
+          <div class="certificate-modal-content">
+            <div class="certificate-modal-header">
+              <h3>Certificate Viewer</h3>
+              <span class="close-modal" onclick="closeCertificateModal()">&times;</span>
+            </div>
+            <div class="certificate-modal-body">
+              <iframe id="certificate-frame" src="" frameborder="0"></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Contact section like dialog box -->
       <section id="contact" class="game-level">
         <h2 class="section-title">SEND MESSAGE</h2>
@@ -495,10 +690,12 @@
 
   <div data-include="includes/footer.html"></div>
 
-  <script src="js/loading.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/platform-game.js"></script>
-  <script src="js/theme-switcher.js"></script>
-  <script src="js/music-player.js"></script>
+<script src="js/loading.js"></script>
+<script src="js/main.js"></script>
+<script src="js/platform-game.js"></script>
+<script src="js/theme-switcher.js"></script>
+<script src="js/music-player.js"></script>
+<script src="js/reviews.js"></script>
+<script src="js/decorative.js"></script>
 </body>
 </html>
